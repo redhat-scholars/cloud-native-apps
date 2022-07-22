@@ -1,5 +1,5 @@
-name: template-tutorial
-title: Template Tutorial
+name: cloud-native-apps
+title: Cloud Native Apps
 version: master
 nav:
   - modules/ROOT/nav.adoc
