@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to Template Tutorial :: Cloud Native Apps</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/index.html">
-    <link rel="next" href="01-setup.html">
+    <title>Get your Developer Workspace :: Cloud Native Apps</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/02-codeready.html">
+    <link rel="prev" href="01-setup.html">
+    <link rel="next" href="03-deploy.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -62,7 +63,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="02-codeready.html">2. Access your CodeReady Workspace</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -127,118 +128,145 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Cloud Native Apps</a></li>
-    <li><a href="index.html">Welcome to Template Tutorial</a></li>
+    <li><a href="02-codeready.html">2. Access your CodeReady Workspace</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/02-codeready.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to Template Tutorial</h1>
-<div class="sect1 text-center strong">
-<h2>Publish Services to Kubernetes</h2>
+<h1 class="page">Get your Developer Workspace</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.</p>
+<p><em>10 MINUTES EXERCISE</em></p>
+</div>
+<div class="paragraph">
+<p>In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform
+and getting familiar with the OpenShift CLI and OpenShift Web Console.</p>
 </div>
 </div>
 </div>
-<div class="sect1 tiles browse">
-<h2>Browse modules</h2>
+<div class="sect1">
+<h2 id="what_is_codeready_workspaces"><a class="anchor" href="#what_is_codeready_workspaces"></a>What is CodeReady Workspaces?</h2>
 <div class="sectionbody">
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="01-setup.html" class="xref page">1. Setup</a></p>
+<div class="sidebarblock">
+<div class="content">
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/codereadyworkspaces-logo.png" alt="CodeReady Workspaces" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a> is a Kubernetes-native IDE and developer collaboration platform.</p>
+</div>
+<div class="paragraph">
+<p>As an open-source project, the core goals of <a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a>  are to:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="01-setup.html#prerequisite" class="xref page">Prerequisites</a></p>
+<p><strong>Accelerate project and developer onboarding:</strong> As a zero-install development environment that runs in your browser, <a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a>  makes it easy for anyone to join your team and contribute to a project.</p>
 </li>
 <li>
-<p><a href="01-setup.html#rhodc" class="xref page">Red Hat OpenShift development cluster</a></p>
+<p><strong>Remove inconsistency between developer environments:</strong> No more: “But it works on my machine.” Your code works exactly the same way in everyone’s environment.</p>
+</li>
+<li>
+<p><strong>Provide built-in security and enterprise readiness:</strong> As <a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a>  becomes a viable replacement for VDI solutions, it must be secure and it must support enterprise requirements, such as role-based access control and the ability to remove all source code from developer machines.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>To achieve those core goals, <a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a>  provides:</p>
 </div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="02-codeready.html" class="xref page">2. Access your CodeReady Workspace</a></p>
-</li>
-</ul>
-</div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="03-deploy.html" class="xref page">3. Deploy Microservices </a></p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="03-deploy.html#helm" class="xref page">Deploy a Quarkus MicroService with Helm</a></p>
+<p><strong>Workspaces:</strong> Container-based developer workspaces providing all the tools and dependencies needed to code, build, test, run, and debug applications.</p>
 </li>
 <li>
-<p><a href="03-deploy.html#odo" class="xref page">Deploy a Spring Boot Microservice</a></p>
+<p><strong>Browser-based IDEs:</strong> Bundled browser-based IDEs with language tooling, debuggers, terminal, source control (SCM) integration, and much more.</p>
 </li>
 <li>
-<p><a href="03-deploy.html#yaml" class="xref page">Deploy Gateway Service using YAML</a></p>
+<p><strong>Extensible platform:</strong> Bring your own IDE. Define, configure, and extend the tools that you need for your application by using plug-ins, which are compatible with Visual Studio Code extensions.</p>
 </li>
 <li>
-<p><a href="03-deploy.html#git" class="xref page">Deploy Web UI from Git </a></p>
+<p><strong>Enterprise Integration:</strong> Multi-user capabilities, including Keycloak for authentication and integration with LDAP or AD.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
 </div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="04-monitor.html" class="xref page">4. Monitor Application Health</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="get_your_developer_workspace"><a class="anchor" href="#get_your_developer_workspace"></a>Getting your Developer Workspace with a single click</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a>  will provide you an out-of-box
+<strong>Developer Workspace</strong> with all the tools and the dependencies we need to do the job. <strong>And with only one single click!</strong></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Devfile</div>
+<div class="paragraph">
+<p><a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a> uses <a href="https://docs.devfile.io/devfile/index.html" target="_blank" rel="noopener">Devfiles</a> to automate the provisioning of a specific workspace by defining:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="04-monitor.html#understanding_liveness" class="xref page"> Understanding Liveness Probes</a></p>
+<p>projects to clone</p>
 </li>
 <li>
-<p><a href="04-monitor.html#configuring_liveness" class="xref page">Configuring Liveness Probes</a></p>
+<p>browser IDE to use</p>
 </li>
 <li>
-<p><a href="04-monitor.html#testing_liveness" class="xref page">Testing Liveness Probes</a></p>
+<p>preconfigured commands</p>
 </li>
 <li>
-<p><a href="04-monitor.html#understanding_readiness" class="xref page"> Understanding Readiness Probes</a></p>
+<p>tools that you need</p>
 </li>
 <li>
-<p><a href="04-monitor.html#configuring_readiness" class="xref page"> Configuring Readiness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#testing_Readiness" class="xref page"> Testing Readiness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#understanding_startup" class="xref page"> Understanding Startup Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#monitoring_all_applications" class="xref page"> Monitoring All Application Healths</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#monitoring_application_metrics" class="xref page"> Monitoring Applications Metrics</a></p>
+<p>application runtime definition</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>Providing a devfile.yaml file inside a Git source repository signals to <a href="https://access.redhat.com/products/red-hat-codeready-workspaces" target="_blank" rel="noopener">CodeReady Workspaces</a> to configure the project and runtime according
+to this file.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Go to your Red Hat Developer Sandbox and click on the 'CodeReady Workspace' button:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/codeready-button.png" alt="Developer Workspace - Button" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>This will provision <code>CodeReady Workspaces</code> in a new tab.</p>
+</div>
+<div class="paragraph">
+<p>Once completed, you will have a fully functional Browser-based IDE within the source code already imported.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="next"><a href="01-setup.html">1. Setup</a></span>
+  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
+  <span class="next"><a href="03-deploy.html">3. Deploy Microservices </a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

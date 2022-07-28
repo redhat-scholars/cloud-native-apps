@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Deploy Microservices :: Cloud Native Apps</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/03-deploy.html">
+    <link rel="prev" href="02-codeready.html">
+    <link rel="next" href="04-monitor.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/cloud-native-apps">Cloud Native Apps</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="cloud-native-apps" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="01-setup.html">1. Setup</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#prerequisite">Prerequisites</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01-setup.html#rhodc">Red Hat OpenShift development cluster</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-codeready.html">2. Access your CodeReady Workspace</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="03-deploy.html">3. Deploy Microservices </a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#helm">Deploy a Quarkus MicroService with Helm</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#odo">Deploy a Spring Boot Microservice</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#yaml">Deploy Gateway Service using YAML</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#git">Deploy Web UI from Git </a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="04-monitor.html">4. Monitor Application Health</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#understanding_liveness"> Understanding Liveness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#configuring_liveness">Configuring Liveness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#testing_liveness">Testing Liveness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#understanding_readiness"> Understanding Readiness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#configuring_readiness"> Configuring Readiness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#testing_Readiness"> Testing Readiness Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#understanding_startup"> Understanding Startup Probes</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#monitoring_all_applications"> Monitoring All Application Healths</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04-monitor.html#monitoring_application_metrics"> Monitoring Applications Metrics</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Cloud Native Apps</a></li>
+    <li><a href="03-deploy.html">3. Deploy Microservices </a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/03-deploy.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Deploy Microservices</h1>
+<div class="sect1">
+<h2 id="helm"><a class="anchor" href="#helm"></a>Deploy a Quarkus MicroService with Helm</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>10 MINUTES EXERCISE</em></p>
+</div>
+<div class="paragraph">
+<p>In this section you will learn about deploying microservices using Helm Charts.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/coolstore-arch-inventory-quarkus.png" alt="CoolStore Architecture" width="400">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="imageblock">
+<div class="content">
+<img src="_images/quarkus-logo.png" alt="Quarkus" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://quarkus.io/" target="_blank" rel="noopener">Quarkus</a> is a Kubernetes Native Java stack tailored for GraalVM &amp; OpenJDK HotSpot,
+crafted from the best of breed Java libraries and standards.</p>
+</div>
+<div class="paragraph">
+<p><strong>Container First</strong>: <a href="https://quarkus.io/" target="_blank" rel="noopener">Quarkus</a> tailors your application for GraalVM and HotSpot. Amazingly fast boot time, incredibly low RSS memory
+(not just heap size!) offering near instant scale up and high density memory utilization in container orchestration platforms
+like Kubernetes. We use a technique we call <a href="https://quarkus.io/vision/container-first" target="_blank" rel="noopener">compile time boot</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Unifies Imperative and Reactive</strong>: Combine both the familiar <a href="https://quarkus.io/vision/continuum" target="_blank" rel="noopener">imperative code and
+the non-blocking reactive style</a> when developing applications</p>
+</div>
+<div class="paragraph">
+<p><strong>Developer Joy</strong>: A cohesive platform for optimized developer joy:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Unified configuration</p>
+</li>
+<li>
+<p>Zero config, live reload in the blink of an eye</p>
+</li>
+<li>
+<p>Streamlined code for the 80% common usages, flexible for the 20%</p>
+</li>
+<li>
+<p>No hassle native executable generation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Best of Breed Libraries and Standards</strong>: Quarkus brings a cohesive, fun to use full-stack framework by leveraging best of breed libraries you
+love and use wired on a <a href="https://quarkus.io/vision/standards" target="_blank" rel="noopener">standard backbone</a>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, we will use Helm to deploy the <code><a href="https://github.com/modernizing-java-applications-book/inventory-quarkus" class="bare">https://github.com/modernizing-java-applications-book/inventory-quarkus</a></code> application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to your Developer Sandbox for Red Hat OpenShift and select <code>Helm</code> from the left hand side menu:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/access-helm.png" alt="Access Helm" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Install a Helm Chart from the developer catalog</code> link.</p>
+</li>
+<li>
+<p>Type <code>Quarkus</code> in the input field associated with search function and click on the result found.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/helm-quarkus.png" alt="Quarkus" width="500">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click the <code>Install Helm Chart</code> button and follow the next steps to adjust the chart values.</p>
+</li>
+<li>
+<p>Change the release name to <code>inventory-quarkus</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/inventory-quarkus.png" alt="Inventory Quarkus" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to the <code>Build</code> section and expand it. Copy and paste the name of the repo: <code><a href="https://github.com/modernizing-java-applications-book/inventory-quarkus.git" class="bare">https://github.com/modernizing-java-applications-book/inventory-quarkus.git</a></code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/build-repo.png" alt="URI to repo" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Finally, click <code>Install</code> button to have your charts installed.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="odo"><a class="anchor" href="#odo"></a>Deploy a Spring Boot Microservice</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>20 MINUTES EXERCISE</em></p>
+</div>
+<div class="paragraph">
+<p>In this section you will learn about deploying microservices using drag-and-drop feature of OpenShift Web Console.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/coolstore-arch-catalog-spring-boot.png" alt="CoolStore Architecture" width="400">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="imageblock">
+<div class="content">
+<img src="_images/spring-boot-logo.png" alt="Spring Boot" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>Spring Boot is an opinionated framework that makes it easy to create stand-alone Spring based
+applications with embedded web containers such as Tomcat (or JBoss Web Server), Jetty and Undertow
+that you can run directly on the JVM using <strong>java -jar</strong>. Spring Boot also allows producing a war
+file that can be deployed on stand-alone web containers.</p>
+</div>
+<div class="paragraph">
+<p>The opinionated approach means many choices about Spring platform and third-party libraries
+are already made by Spring Boot so that you can get started with minimum effort and configuration.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This exercise starts by going to your <code>CodeReady Workspaces</code> and input <code><a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot.git" class="bare">https://github.com/modernizing-java-applications-book/catalog-spring-boot.git</a></code> via <code>Quick Add</code>:</p>
+</div>
+<div class="imageblock text-center mt-4 center">
+<div class="content">
+<img src="_images/create-workspace.png" alt="Create Workspace" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Then click <code>Create &amp; Open</code> button to import the project.</p>
+</div>
+<div class="paragraph">
+<p>Locate <code>/projects/catalog-spring-boot/src/main/resources/import.sql</code> in the newly imported project and add the following lines to it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
+INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, go to <code>Terminal</code> &#8594; <code>Open Terminal in Specific Container</code> and select any container.
+A terminal window will open at the bottom of your editor and there you can input <code>mvn clean install</code>:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/mvn-clean-install.png" alt="Maven" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>After packaging the application, you can expand your target folder on left-hand side and observe the results:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/build-results.png" alt="Build results" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>You may download locally the build results by right-clicking and saving the jar on your computer.
+In order to deploy our recent build we will use this downloaded jar.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to your <code>Developer Sandbox for Red Hat OpenShift</code>.</p>
+</li>
+<li>
+<p>Click on <code>+Add</code> button and locate <code>Upload Jar File</code> option</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/upload-jar.png" alt="Upload jar" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Browse the location of the jar from your local computer and odify the <strong><code>Builder Image Version</code></strong> to be <code>openjdk-11-el7</code>:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/builder-image-version.png" alt="Builder image version" width="400" height="400">
+</div>
+</div>
+<div class="paragraph">
+<p>You can also modify the <strong><code>Runtime icon</code></strong> to <code>spring-boot</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the <strong><code>General Section</code></strong> change the <strong><code>Application name</code></strong> to <code>coolstore</code> and the <strong><code>Name</code></strong> to <code>catalog-spring-boot</code>:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/general-catalog-name.png" alt="General Section" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Press <code>Create</code> button.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can make the previous Helm installation of the Quarkus microservice part of your <code>coolstore</code> application by editing its labels and adding <code>app.kubernetes.io/part-of=coolstore</code>.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/edit-labels.png" alt="Edit labels" width="600" height="600">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can validate your deployment by accessing the application via its route url:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/route.png" alt="Route" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>This will open a new browser tab and you should see something similar to:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/test-it.png" alt="Test it" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Then <code><strong>click on 'Test it'</strong></code>. You should have a similar array of json output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[{"itemId":"100000","name":"Red Fedora","description":"Official Red Hat Fedora","price":34.99},{"itemId":"329299","name":"Quarkus T-shirt","description":"This updated unisex essential fits like a well-loved favorite, featuring a crew neck, short sleeves and designed with superior combed and ring- spun cotton.","price":10.0},{"itemId":"329199","name":"Pronounced Kubernetes","description":"Kubernetes is changing how enterprises work in the cloud. But one of the biggest questions people have is: How do you pronounce it?","price":9.0},{"itemId":"165613","name":"Knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15},{"itemId":"165614","name":"Quarkus H2Go water bottle","description":"Sporty 16. 9 oz double wall stainless steel thermal bottle with copper vacuum insulation, and threaded insulated lid. Imprinted. Imported.","price":14.45},{"itemId":"165954","name":"Patagonia Refugio pack 28L","description":"Made from 630-denier 100% nylon (50% recycled/50% high-tenacity) plain weave; lined with 200-denier 100% recycled polyester. ...","price":6.0},{"itemId":"444434","name":"Red Hat Impact T-shirt","description":"This 4. 3 ounce, 60% combed ringspun cotton/40% polyester jersey t- shirt features a slightly heathered appearance. The fabric laundered for reduced shrinkage. Next Level brand apparel. Printed.","price":9.0},{"itemId":"444435","name":"Quarkus twill cap","description":"100% cotton chino twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"444437","name":"Nanobloc Universal Webcam Cover","description":"NanoBloc Webcam Cover fits phone, laptop, desktop, Pc, MacBook Pro, iMac, ...","price":2.75},{"itemId":"444439","name":"Organic Cotton Quarkus twill cap","description":"100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"165623","name":"Organic Cotton knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Well done! You are ready to move on to the next lab.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="yaml"><a class="anchor" href="#yaml"></a>Deploy Gateway Service using YAML</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>5 MINUTES EXERCISE</em></p>
+</div>
+<div class="paragraph">
+<p>During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs.
+For this type of deployment we can use YAML files already available at <a href="https://github.com/modernizing-java-applications-book/gateway-vertx.git" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx.git</a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to your <code>Developer Sandbox for Red Hat OpenShift</code>.</p>
+</li>
+<li>
+<p>Click on <code>+Add</code> button and locate <code>From YAML</code> option</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/from-yaml.png" alt="From YAML" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Locate the YAML files inside <a href="https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml</a> and use the <code>Copy</code> feature of GitHub to copy their content.</p>
+</li>
+<li>
+<p>Now paste the YAML content in your sandbox and hit <code>Create</code> button.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/import-yaml.png" alt="Import YAML" width="600" height="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You should see the following results:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/successful-yaml-import.png" alt="Successful YAML import" width="600" height="600">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="git"><a class="anchor" href="#git"></a>Deploy Web UI from Git</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>10 MINUTES EXERCISE</em></p>
+</div>
+<div class="paragraph">
+<p>The Web UI is built using Node.js for server-side JavaScript and AngularJS for client-side
+JavaScript. Let&#8217;s deploy it on OpenShift using the certified Node.js container image available
+in OpenShift.</p>
+</div>
+<div class="paragraph">
+<p>In this section, you will fully use OpenShift <a href="https://docs.openshift.com/container-platform/4.10/cicd/builds/understanding-image-builds.html" target="_blank" rel="noopener">Source-to-Image (S2I)</a>.
+OpenShift will obtain the application code directly from the source repository then build and deploy a
+container image of it.</p>
+</div>
+<div class="paragraph">
+<p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
+<code><strong>click on '+Add' and select 'Import from Git'</strong></code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-add-from-git.png" alt="OpenShift - Add from Git" width="700">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Fill in the <strong><code>Git Repo URL</code></strong> with <code><a href="https://github.com/modernizing-java-applications-book/web-nodejs.git" class="bare">https://github.com/modernizing-java-applications-book/web-nodejs.git</a></code>.
+Also, update <strong><code>Git reference</code></strong> to <code>main</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/git-url-branch.png" alt="Git Repo URL and reference" width="700">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Next, select the <strong><code>Builder Image</code></strong> strategy and OpenShift will autodetect the runtime needed by the code.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/builder-image.png" alt="Builder Image" width="700">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Expand the <code>Deployment</code> and add environment variable.
+The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/secure-env-variable.png" alt="Environment variable" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>In a second tab, find the URL associated with the Route to Gateway Service. You can find it using <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gateway-service-url.png" alt="Gateway Service URL" width="700">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get routes</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Press <strong><code>Create</code></strong> button to finish the deployment.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can check the deployed application by accessing the Route of the last deployment.
+The final view of the deployed applications should be similar to this one:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/final-overview.png" alt="Deployments Overview" width="700">
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="02-codeready.html">2. Access your CodeReady Workspace</a></span>
+  <span class="next"><a href="04-monitor.html">4. Monitor Application Health</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
