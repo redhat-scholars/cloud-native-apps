@@ -1,0 +1,214 @@
+= Deploy Microservices
+include::_attributes.adoc[]
+
+[#helm]
+== Deploy a Quarkus MicroService with Helm
+
+_10 MINUTES EXERCISE_
+
+In this section you will learn about deploying microservices using Helm Charts.
+
+image::coolstore-arch-inventory-quarkus.png[CoolStore Architecture,400]
+
+[sidebar]
+--
+image::quarkus-logo.png[Quarkus, 500]
+
+https://quarkus.io/[Quarkus^] is a Kubernetes Native Java stack tailored for GraalVM & OpenJDK HotSpot,
+crafted from the best of breed Java libraries and standards.
+
+**Container First**: https://quarkus.io/[Quarkus^] tailors your application for GraalVM and HotSpot. Amazingly fast boot time, incredibly low RSS memory
+(not just heap size!) offering near instant scale up and high density memory utilization in container orchestration platforms
+like Kubernetes. We use a technique we call https://quarkus.io/vision/container-first[compile time boot^].
+
+**Unifies Imperative and Reactive**: Combine both the familiar https://quarkus.io/vision/continuum[imperative code and 
+the non-blocking reactive style^] when developing applications
+
+**Developer Joy**: A cohesive platform for optimized developer joy:
+
+* Unified configuration
+* Zero config, live reload in the blink of an eye
+* Streamlined code for the 80% common usages, flexible for the 20%
+* No hassle native executable generation
+
+**Best of Breed Libraries and Standards**: Quarkus brings a cohesive, fun to use full-stack framework by leveraging best of breed libraries you
+love and use wired on a https://quarkus.io/vision/standards[standard backbone^].
+--
+
+Next, we will use Helm to deploy the `https://github.com/modernizing-java-applications-book/inventory-quarkus` application.
+
+* Go to your Developer Sandbox for Red Hat OpenShift and select `Helm` from the left hand side menu:
+
+image::access-helm.png[Access Helm,600,600,align="center"]
+
+* Click on `Install a Helm Chart from the developer catalog` link.
+* Type `Quarkus` in the input field associated with search function and click on the result found.
+
+image::helm-quarkus.png[Quarkus, 500]
+* Click the `Install Helm Chart` button and follow the next steps to adjust the chart values.
+* Change the release name to `inventory-quarkus`
+
+image::inventory-quarkus.png[Inventory Quarkus,600,600,align="center"]
+* Go to the `Build` section and expand it. Copy and paste the name of the repo: `https://github.com/modernizing-java-applications-book/inventory-quarkus.git`
+
+image::build-repo.png[URI to repo,600,600,align="center"]
+* Finally, click `Install` button to have your charts installed.
+
+
+[#odo]
+== Deploy a Spring Boot Microservice
+
+_20 MINUTES EXERCISE_
+
+In this section you will learn about deploying microservices using drag-and-drop feature of OpenShift Web Console.
+
+image::coolstore-arch-catalog-spring-boot.png[CoolStore Architecture,400]
+
+
+[sidebar]
+--
+image::spring-boot-logo.png[Spring Boot, 400]
+
+Spring Boot is an opinionated framework that makes it easy to create stand-alone Spring based
+applications with embedded web containers such as Tomcat (or JBoss Web Server), Jetty and Undertow
+that you can run directly on the JVM using **java -jar**. Spring Boot also allows producing a war
+file that can be deployed on stand-alone web containers.
+
+The opinionated approach means many choices about Spring platform and third-party libraries
+are already made by Spring Boot so that you can get started with minimum effort and configuration.
+--
+
+This exercise starts by going to your `CodeReady Workspaces` and input `https://github.com/modernizing-java-applications-book/catalog-spring-boot.git` via `Quick Add`:
+
+[.mt-4.center]
+image::create-workspace.png[Create Workspace,600,600,align="center"]
+
+Then click `Create & Open` button to import the project.
+
+Locate `/projects/catalog-spring-boot/src/main/resources/import.sql` in the newly imported project and add the following lines to it:
+[source,sql,subs="+macros,+attributes"]
+----
+INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
+INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);
+----
+
+Next, go to `Terminal` -> `Open Terminal in Specific Container` and select any container.
+A terminal window will open at the bottom of your editor and there you can input `mvn clean install`:
+
+image::mvn-clean-install.png[Maven,600,600,align="center"]
+
+After packaging the application, you can expand your target folder on left-hand side and observe the results:
+
+image::build-results.png[Build results,600,600,align="center"]
+
+You may download locally the build results by right-clicking and saving the jar on your computer.
+In order to deploy our recent build we will use this downloaded jar.
+
+* Go to your `Developer Sandbox for Red Hat OpenShift`.
+* Click on `+Add` button and locate `Upload Jar File` option
+
+image::upload-jar.png[Upload jar,600,600,align="center"]
+* Browse the location of the jar from your local computer and odify the *`Builder Image Version`* to be `openjdk-11-el7`:
+
+image::builder-image-version.png[Builder image version,400,400,align="center"]
+You can also modify the *`Runtime icon`* to `spring-boot`.
+
+* In the *`General Section`* change the *`Application name`* to `coolstore` and the *`Name`* to `catalog-spring-boot`:
+
+image::general-catalog-name.png[General Section,600,600,align="center"]
+
+* Press `Create` button.
+
+[TIP]
+====
+You can make the previous Helm installation of the Quarkus microservice part of your `coolstore` application by editing its labels and adding `app.kubernetes.io/part-of=coolstore`.
+
+image::edit-labels.png[Edit labels,600,600,align="center"]
+====
+
+You can validate your deployment by accessing the application via its route url:
+
+image::route.png[Route,600,600,align="center"]
+
+This will open a new browser tab and you should see something similar to:
+
+image::test-it.png[Test it,600,600,align="center"]
+
+Then `*click on 'Test it'*`. You should have a similar array of json output:
+
+[source,json]
+----
+[{"itemId":"100000","name":"Red Fedora","description":"Official Red Hat Fedora","price":34.99},{"itemId":"329299","name":"Quarkus T-shirt","description":"This updated unisex essential fits like a well-loved favorite, featuring a crew neck, short sleeves and designed with superior combed and ring- spun cotton.","price":10.0},{"itemId":"329199","name":"Pronounced Kubernetes","description":"Kubernetes is changing how enterprises work in the cloud. But one of the biggest questions people have is: How do you pronounce it?","price":9.0},{"itemId":"165613","name":"Knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15},{"itemId":"165614","name":"Quarkus H2Go water bottle","description":"Sporty 16. 9 oz double wall stainless steel thermal bottle with copper vacuum insulation, and threaded insulated lid. Imprinted. Imported.","price":14.45},{"itemId":"165954","name":"Patagonia Refugio pack 28L","description":"Made from 630-denier 100% nylon (50% recycled/50% high-tenacity) plain weave; lined with 200-denier 100% recycled polyester. ...","price":6.0},{"itemId":"444434","name":"Red Hat Impact T-shirt","description":"This 4. 3 ounce, 60% combed ringspun cotton/40% polyester jersey t- shirt features a slightly heathered appearance. The fabric laundered for reduced shrinkage. Next Level brand apparel. Printed.","price":9.0},{"itemId":"444435","name":"Quarkus twill cap","description":"100% cotton chino twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"444437","name":"Nanobloc Universal Webcam Cover","description":"NanoBloc Webcam Cover fits phone, laptop, desktop, Pc, MacBook Pro, iMac, ...","price":2.75},{"itemId":"444439","name":"Organic Cotton Quarkus twill cap","description":"100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"165623","name":"Organic Cotton knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15}]
+----
+
+Well done! You are ready to move on to the next lab.
+
+[#yaml]
+== Deploy Gateway Service using YAML
+
+_5 MINUTES EXERCISE_
+
+During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs.
+For this type of deployment we can use YAML files already available at https://github.com/modernizing-java-applications-book/gateway-vertx.git.
+
+* Go to your `Developer Sandbox for Red Hat OpenShift`.
+* Click on `+Add` button and locate `From YAML` option
+
+image::from-yaml.png[From YAML, 600,600,align="center"]
+
+* Locate the YAML files inside https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml and use the `Copy` feature of GitHub to copy their content.
+* Now paste the YAML content in your sandbox and hit `Create` button.
+
+image::import-yaml.png[Import YAML, 600,600,align="center"]
+
+* You should see the following results:
+
+image::successful-yaml-import.png[Successful YAML import, 600,600,align="center"]
+
+[#git]
+== Deploy Web UI from Git
+
+_10 MINUTES EXERCISE_
+
+The Web UI is built using Node.js for server-side JavaScript and AngularJS for client-side
+JavaScript. Let's deploy it on OpenShift using the certified Node.js container image available
+in OpenShift.
+
+In this section, you will fully use OpenShift https://docs.openshift.com/container-platform/4.10/cicd/builds/understanding-image-builds.html[Source-to-Image (S2I)^].
+OpenShift will obtain the application code directly from the source repository then build and deploy a
+container image of it. 
+
+In the OpenShift Web Console, from the **Developer view**,
+`*click on '+Add' and select 'Import from Git'*`
+
+image::openshift-add-from-git.png[OpenShift - Add from Git, 700]
+
+* Fill in the *`Git Repo URL`* with `https://github.com/modernizing-java-applications-book/web-nodejs.git`.
+Also, update *`Git reference`* to `main`.
+
+image::git-url-branch.png[Git Repo URL and reference, 700]
+
+* Next, select the *`Builder Image`* strategy and OpenShift will autodetect the runtime needed by the code.
+
+image::builder-image.png[Builder Image, 700]
+
+* Expand the `Deployment` and add environment variable.
+The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service.
+
+image::secure-env-variable.png[Environment variable, 700]
+
+In a second tab, find the URL associated with the Route to Gateway Service. You can find it using *OpenShift Web Console -> Project -> Routes* or the OpenShift CLI:
+
+image::gateway-service-url.png[Gateway Service URL, 700]
+
+[source,bash,subs="+macros,+attributes"]
+----
+oc get routes
+----
+
+* Press *`Create`* button to finish the deployment.
+
+You can check the deployed application by accessing the Route of the last deployment.
+The final view of the deployed applications should be similar to this one:
+
+image::final-overview.png[Deployments Overview, 700]

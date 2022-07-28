@@ -10,11 +10,30 @@ A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes 
 [.tiles.browse]
 == Browse modules
 
-[.tile]
-.xref:01-setup.adoc[Get Started]
-* xref:01-setup.adoc#minikube[Minikube]
 
 [.tile]
-.xref:02-deploy.adoc[Deploying]
-* xref:02-deploy.adoc#package[Package the Application]
-* xref:02-deploy.adoc#deploy[Deploy the Application]
+* xref:01-setup.adoc[1. Setup]
+** xref:01-setup.adoc#prerequisite[Prerequisites]
+** xref:01-setup.adoc#rhodc[Red Hat OpenShift development cluster]
+
+[.tile]
+* xref:02-codeready.adoc[2. Access your CodeReady Workspace]
+
+[.tile]
+* xref:03-deploy.adoc[3. Deploy Microservices ]
+** xref:03-deploy.adoc#helm[Deploy a Quarkus MicroService with Helm]
+** xref:03-deploy.adoc#odo[Deploy a Spring Boot Microservice]
+** xref:03-deploy.adoc#yaml[Deploy Gateway Service using YAML]
+** xref:03-deploy.adoc#git[Deploy Web UI from Git ]
+
+[.tile]
+* xref:04-monitor.adoc[4. Monitor Application Health]
+** xref:04-monitor.adoc#understanding_liveness[ Understanding Liveness Probes]
+** xref:04-monitor.adoc#configuring_liveness[Configuring Liveness Probes]
+** xref:04-monitor.adoc#testing_liveness[Testing Liveness Probes]
+** xref:04-monitor.adoc#understanding_readiness[ Understanding Readiness Probes]
+** xref:04-monitor.adoc#configuring_readiness[ Configuring Readiness Probes]
+** xref:04-monitor.adoc#testing_Readiness[ Testing Readiness Probes]
+** xref:04-monitor.adoc#understanding_startup[ Understanding Startup Probes]
+** xref:04-monitor.adoc#monitoring_all_applications[ Monitoring All Application Healths]
+** xref:04-monitor.adoc#monitoring_application_metrics[ Monitoring Applications Metrics]

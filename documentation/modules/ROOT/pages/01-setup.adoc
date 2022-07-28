@@ -10,20 +10,22 @@ include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-c
 include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/optional-requisites.adoc[]
 |===
 
-[#minikube]
-== Setup Kubernetes
 
-:profile: my_profile
+== IDE
 
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/kubernetes-setup.adoc[]
+You can use any IDE for this tutorial but if you didn't try it before, we recommend https://code.visualstudio.com/download[VS Code, window="_blank"] with the https://marketplace.visualstudio.com/items?itemName=redhat.java[Language Support for Java(TM) by Red Hat, window="_blank"] and the https://marketplace.visualstudio.com/items?itemName=redhat.vscode-quarkus[Quarkus, window="_blank"] extensions.
 
-And then you are ready for start using Kubernetes:
+[#rhodc]
+== Red Hat OpenShift development cluster
 
-image::kubelogo.png[]
+You can provision your own development environment at https://developers.redhat.com/developer-sandbox/get-started[https://developers.redhat.com/developer-sandbox/get-started]:
+
+[.mt-4.center]
+image::sandbox-account.png[Sandbox Image,400,400,align="center"]
 
 [#downloadtutorial]
 == Get tutorial sources
 
-:tutorial-url: https://github.com/redhat-developer-demos/rhd-tutorial-common.git
+:tutorial-url: https://github.com/redhat-scholars/cloud-native-apps.git
 :folder: my_folder
 include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]
