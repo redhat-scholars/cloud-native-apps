@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to Template Tutorial :: Cloud Native Apps</title>
+    <title>Welcome to the Summit Connect NA Developer Lab :: Cloud Native Apps</title>
     <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/index.html">
     <link rel="next" href="01-setup.html">
     <meta name="generator" content="Antora 3.0.0">
@@ -131,109 +131,67 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Cloud Native Apps</a></li>
-    <li><a href="index.html">Welcome to Template Tutorial</a></li>
+    <li><a href="index.html">Welcome to the Summit Connect NA Developer Lab</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to Template Tutorial</h1>
+<h1 class="page">Welcome to the Summit Connect NA Developer Lab</h1>
 <div class="sect1 text-center strong">
-<h2>Publish Services to Kubernetes</h2>
+<h2>Create your apps the cloud-native way with OpenShift Developer Tools</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.</p>
+<p>With this hands on lab you will discover OpenShift Developer Tools such as:</p>
 </div>
-</div>
-</div>
-<div class="sect1 tiles browse">
-<h2>Browse modules</h2>
-<div class="sectionbody">
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="01-setup.html" class="xref page">1. Setup</a></p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="01-setup.html#prerequisite" class="xref page">Prerequisites</a></p>
+<p><a href="https://docs.openshift.com/container-platform/4.10/web_console/web-console.html">OpenShift Web Console</a></p>
 </li>
 <li>
-<p><a href="01-setup.html#rhodc" class="xref page">Red Hat OpenShift development cluster</a></p>
+<p><a href="https://helm.sh">Helm</a></p>
+</li>
+<li>
+<p><a href="https://developers.redhat.com/products/openshift-dev-spaces/overview">CodeReady Workspaces and IDE plugins</a></p>
+</li>
+<li>
+<p><a href="https://docs.openshift.com/container-platform/4.10/openshift_images/using_images/using-s21-images.html">Source-to-Image</a></p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="paragraph">
+<p>You will implement a microservices-based architecture to deploy the Red Hat Coolstore e-shop:</p>
 </div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="02-codeready.html" class="xref page">2. Access your CodeReady Workspace</a></p>
-</li>
-</ul>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/modernizing-java-applications-book/web-nodejs/blob/main/coolstore-web.png?raw=true" alt="Coolstore Shop" width="600">
 </div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="03-deploy.html" class="xref page">3. Deploy Microservices </a></p>
+</div>
+<div class="paragraph">
+<p>You will create these components:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="03-deploy.html#helm" class="xref page">Deploy a Quarkus MicroService with Helm</a></p>
+<p><strong>Catalog Service</strong> exposes using a REST API content of a catalog stored in a relational database</p>
 </li>
 <li>
-<p><a href="03-deploy.html#odo" class="xref page">Deploy a Spring Boot Microservice</a></p>
+<p><strong>Inventory Service</strong> exposes using a REST API the inventory stored in a relational database</p>
 </li>
 <li>
-<p><a href="03-deploy.html#yaml" class="xref page">Deploy Gateway Service using YAML</a></p>
+<p><strong>Gateway Service</strong> calls the <strong>Catalog Service</strong> and <strong>Inventory Service</strong> in an efficient way</p>
 </li>
 <li>
-<p><a href="03-deploy.html#git" class="xref page">Deploy Web UI from Git </a></p>
+<p><strong>WebUI Service</strong> calls <strong>Gateway Service</strong> to retrieve all the informations.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/modernizing-java-applications-book/web-nodejs/main/coolstore-arch.png" alt="Coolstore Architecture" width="400">
 </div>
-<div class="ulist tile">
-<ul>
-<li>
-<p><a href="04-monitor.html" class="xref page">4. Monitor Application Health</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="04-monitor.html#understanding_liveness" class="xref page"> Understanding Liveness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#configuring_liveness" class="xref page">Configuring Liveness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#testing_liveness" class="xref page">Testing Liveness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#understanding_readiness" class="xref page"> Understanding Readiness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#configuring_readiness" class="xref page"> Configuring Readiness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#testing_Readiness" class="xref page"> Testing Readiness Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#understanding_startup" class="xref page"> Understanding Startup Probes</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#monitoring_all_applications" class="xref page"> Monitoring All Application Healths</a></p>
-</li>
-<li>
-<p><a href="04-monitor.html#monitoring_application_metrics" class="xref page"> Monitoring Applications Metrics</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
 </div>
 </div>
 </div>
