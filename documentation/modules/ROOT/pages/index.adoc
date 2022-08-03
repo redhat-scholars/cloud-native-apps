@@ -1,39 +1,27 @@
-= Welcome to Template Tutorial
+= Welcome to the Summit Connect NA Developer Lab 
 :page-layout: home
 :!sectids:
 
 [.text-center.strong]
-== Publish Services to Kubernetes
+== Create your apps the cloud-native way with OpenShift Developer Tools
 
-A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.
+With this hands on lab you will discover OpenShift Developer Tools such as:
 
-[.tiles.browse]
-== Browse modules
+* link:https://docs.openshift.com/container-platform/4.10/web_console/web-console.html[OpenShift Web Console]
+* link:https://helm.sh[Helm]
+* link:https://developers.redhat.com/products/openshift-dev-spaces/overview[CodeReady Workspaces and IDE plugins]
+* link:https://docs.openshift.com/container-platform/4.10/openshift_images/using_images/using-s21-images.html[Source-to-Image]
 
+You will implement a microservices-based architecture to deploy the Red Hat Coolstore e-shop:
 
-[.tile]
-* xref:01-setup.adoc[1. Setup]
-** xref:01-setup.adoc#prerequisite[Prerequisites]
-** xref:01-setup.adoc#rhodc[Red Hat OpenShift development cluster]
+image::https://github.com/modernizing-java-applications-book/web-nodejs/blob/main/coolstore-web.png?raw=true[Coolstore Shop,600] 
 
-[.tile]
-* xref:02-codeready.adoc[2. Access your CodeReady Workspace]
+You will create these components:
 
-[.tile]
-* xref:03-deploy.adoc[3. Deploy Microservices ]
-** xref:03-deploy.adoc#helm[Deploy a Quarkus MicroService with Helm]
-** xref:03-deploy.adoc#odo[Deploy a Spring Boot Microservice]
-** xref:03-deploy.adoc#yaml[Deploy Gateway Service using YAML]
-** xref:03-deploy.adoc#git[Deploy Web UI from Git ]
+* **Catalog Service** exposes using a REST API content of a catalog stored in a relational database
+* **Inventory Service** exposes using a REST API the inventory stored in a relational database
+* **Gateway Service** calls the **Catalog Service** and **Inventory Service** in an efficient way
+* **WebUI Service** calls **Gateway Service** to retrieve all the informations.
 
-[.tile]
-* xref:04-monitor.adoc[4. Monitor Application Health]
-** xref:04-monitor.adoc#understanding_liveness[ Understanding Liveness Probes]
-** xref:04-monitor.adoc#configuring_liveness[Configuring Liveness Probes]
-** xref:04-monitor.adoc#testing_liveness[Testing Liveness Probes]
-** xref:04-monitor.adoc#understanding_readiness[ Understanding Readiness Probes]
-** xref:04-monitor.adoc#configuring_readiness[ Configuring Readiness Probes]
-** xref:04-monitor.adoc#testing_Readiness[ Testing Readiness Probes]
-** xref:04-monitor.adoc#understanding_startup[ Understanding Startup Probes]
-** xref:04-monitor.adoc#monitoring_all_applications[ Monitoring All Application Healths]
-** xref:04-monitor.adoc#monitoring_application_metrics[ Monitoring Applications Metrics]
+image::https://raw.githubusercontent.com/modernizing-java-applications-book/web-nodejs/main/coolstore-arch.png[Coolstore Architecture,400] 
+
