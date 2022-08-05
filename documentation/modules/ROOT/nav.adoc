@@ -1,5 +1,4 @@
 * xref:01-setup.adoc[1. Setup]
-** xref:01-setup.adoc#prerequisite[Prerequisites]
 ** xref:01-setup.adoc#rhodc[Red Hat OpenShift development cluster]
 ** xref:01-setup.adoc#wto[Web Terminal Operator]
 
