@@ -64,11 +64,11 @@ image::openshift-inventory-pod.png[OpenShift Inventory Pod, 700]
 
 Then, `*from the Terminal tab, run the following command*`:
 
-image::openshift-inventory-pkill.png[OpenShift Inventory pkill, 700]
+image::openshift-inventory-kill.png[OpenShift Inventory kill, 700]
 
 [source,shell,subs="{markup-in-source}",role=copypaste]
 ----
-pkill -STOP java
+kill 1
 ----
 
 So **you just suspend the _Inventory Service_ java process** to simulate a stuck situation.
@@ -80,7 +80,7 @@ image::openshift-inventory-events.png[OpenShift Inventory Events, 500]
 
 image::openshift-inventory-logs.png[OpenShift Inventory Logs, 500]
 
-Now, `*try to access your http://inventory-coolstore-my-project{USER_ID}.{APPS_HOSTNAME_SUFFIX}[Inventory Service^, role='params-link']*`.
+Now, `*try to access your Inventory Service*`.
 **You don't have any response anymore** (as the process has been stopped previously).
 
 Often, applications need a restart to work correctly again.
@@ -89,7 +89,7 @@ In the OpenShift Web Console, `*click on 'Actions' -> 'Delete Pod' -> 'Delete'*`
 
 image::openshift-inventory-delete-pod.png[OpenShift Inventory Delete Pod, 700]
 
-A new instance (pod) will be redeployed. Once done, `*try to access again your http://inventory-coolstore-my-project{USER_ID}.{APPS_HOSTNAME_SUFFIX}[Inventory Service^, role='params-link']*`.
+A new instance (pod) will be redeployed. 
 
 **Now the _Inventory Service_ is working again.**
 
@@ -203,11 +203,11 @@ Let's imagine you have traffic to the _Catalog Service_
 ----
 for i in {1..60}
 do 
-    if [ $(curl -s -w "%{http_code}" -o /dev/null http://catalog-coolstore.my-project{USER_ID}.svc:8080/actuator/health) == "200" ]
+    if [ $(curl -s -w "200" -o /dev/null http://catalog-spring-boot:8080/actuator/health) == "200" ]
     then 
-        MSG="\033[0;32mThe request to Catalog Service has succeeded\033[0m"
+        MSG="\033[0;32mThe request to Inventory Service has succeeded\033[0m"
     else 
-        MSG="\033[0;31mERROR - The request to Catalog Service has failed\033[0m" 
+        MSG="\033[0;31mERROR - The request to Inventory Service has failed\033[0m" 
     fi
     
     echo -e $MSG
@@ -222,7 +222,7 @@ image::che-catalog-traffic-ok.png[Catalog Traffic OK, 500]
 Now let's scale out your _Catalog Service_ to 2 instances.
 
 In the OpenShift Web Console, from the **Developer view**,
-`*click on 'Topology' -> '(D) catalog-coolstore' -> 'Details' then click once on the up arrows
+`*click on 'Topology' -> '(D) catalog-spring-boot' -> 'Details' then click once on the up arrows
 on the right side of the pod blue circle*`.
 
 image::openshift-scale-out-catalog.png[OpenShift Scale Out Catalog, 700]
@@ -267,11 +267,11 @@ You should have the following output:
 In the OpenShift Web Console, from the **Developer view**,
 `*click on 'Topology' -> '(D) catalog-coolstore' -> 'Add Health Checks'*`.
 
-image::openshift-catalog-add-health-check.png[Che - Catalog Add Health Check, 700]
+image::openshift-catalog-add-health-check.png[Catalog Add Health Check, 700]
 
 Then `*click on 'Add Readiness Probe'*`
 
-image::openshift-catalog-add-readiness-probe.png[Che - Catalog Add Readiness Probe, 500]
+image::openshift-catalog-add-readiness-probe.png[Catalog Add Readiness Probe, 500]
 
 `*Enter the following information:*`
 

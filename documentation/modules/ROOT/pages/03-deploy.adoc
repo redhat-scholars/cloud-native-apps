@@ -37,7 +37,7 @@ love and use wired on a https://quarkus.io/vision/standards[standard backbone^].
 
 Next, we will use Helm to deploy the `https://github.com/modernizing-java-applications-book/inventory-quarkus` application.
 
-* Go to your Developer Sandbox for Red Hat OpenShift and select `Helm` from the left hand side menu:
+* Go to your Developer Sandbox for Red Hat OpenShift (the Web UI tab) and select `Helm` from the left hand side menu:
 
 image::access-helm.png[Access Helm,600,600,align="center"]
 
@@ -92,7 +92,7 @@ INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organ
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);
 ----
 
-Next, go to `Terminal` -> `Open Terminal in Specific Container` and select any container.
+Next, go to `Terminal` -> `Open Terminal in Specific Container` and select a container with name beginning with `vscode-`.
 A terminal window will open at the bottom of your editor and there you can input `mvn clean install`:
 
 image::mvn-clean-install.png[Maven,600,600,align="center"]
@@ -101,7 +101,7 @@ After packaging the application, you can expand your target folder on left-hand 
 
 image::build-results.png[Build results,600,600,align="center"]
 
-You may download locally the build results by right-clicking and saving the jar on your computer.
+You should download locally the build results by right-clicking and saving the jar on your computer.
 In order to deploy our recent build we will use this downloaded jar.
 
 * Go to your `Developer Sandbox for Red Hat OpenShift`.
