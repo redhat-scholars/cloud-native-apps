@@ -238,12 +238,12 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-pkill.png" alt="OpenShift Inventory pkill" width="700">
+<img src="_images/openshift-inventory-kill.png" alt="OpenShift Inventory kill" width="700">
 </div>
 </div>
 <div class="listingblock copypaste">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">pkill -STOP java</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">kill 1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -264,7 +264,7 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 </div>
 </div>
 <div class="paragraph">
-<p>Now, <code><strong>try to access your <a href="http://inventory-coolstore-my-project{USER_ID}.{APPS_HOSTNAME_SUFFIX}" class="params-link" target="_blank" rel="noopener">Inventory Service</a></strong></code>.
+<p>Now, <code><strong>try to access your Inventory Service</strong></code>.
 <strong>You don&#8217;t have any response anymore</strong> (as the process has been stopped previously).</p>
 </div>
 <div class="paragraph">
@@ -279,7 +279,7 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 </div>
 </div>
 <div class="paragraph">
-<p>A new instance (pod) will be redeployed. Once done, <code><strong>try to access again your <a href="http://inventory-coolstore-my-project{USER_ID}.{APPS_HOSTNAME_SUFFIX}" class="params-link" target="_blank" rel="noopener">Inventory Service</a></strong></code>.</p>
+<p>A new instance (pod) will be redeployed.</p>
 </div>
 <div class="paragraph">
 <p><strong>Now the <em>Inventory Service</em> is working again.</strong></p>
@@ -326,9 +326,9 @@ to it:</p>
 <p>In the OpenShift Web Console], from the <strong>Developer view</strong>,
 <code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Actions &#8594;'Edit Health Checks'</strong></code>.</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/openshift-inventory-add-health-check.png" alt="Inventory Edit Health Check" width="700">
+<img src="openshift-inventory-add-health-check.png" alt="Inventory Edit Health Check" width="700">
 </div>
 </div>
 <div class="paragraph">
@@ -441,11 +441,11 @@ Therefore, as soon as you define the probe, OpenShift automatically redeploys th
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">for i in {1..60}
 do
-    if [ $(curl -s -w "%{http_code}" -o /dev/null http://catalog-coolstore.my-project{USER_ID}.svc:8080/actuator/health) == "200" ]
+    if [ $(curl -s -w "200" -o /dev/null http://catalog-spring-boot:8080/actuator/health) == "200" ]
     then
-        MSG="\033[0;32mThe request to Catalog Service has succeeded\033[0m"
+        MSG="\033[0;32mThe request to Inventory Service has succeeded\033[0m"
     else
-        MSG="\033[0;31mERROR - The request to Catalog Service has failed\033[0m"
+        MSG="\033[0;31mERROR - The request to Inventory Service has failed\033[0m"
     fi
 
     echo -e $MSG
@@ -466,7 +466,7 @@ done</code></pre>
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) catalog-coolstore' &#8594; 'Details' then click once on the up arrows
+<code><strong>click on 'Topology' &#8594; '(D) catalog-spring-boot' &#8594; 'Details' then click once on the up arrows
 on the right side of the pod blue circle</strong></code>.</p>
 </div>
 <div class="imageblock">
@@ -533,15 +533,15 @@ dependencies which is already done for the <strong>Catalog Service</strong>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-catalog-add-health-check.png" alt="Che - Catalog Add Health Check" width="700">
+<img src="_images/openshift-catalog-add-health-check.png" alt="Catalog Add Health Check" width="700">
 </div>
 </div>
 <div class="paragraph">
 <p>Then <code><strong>click on 'Add Readiness Probe'</strong></code></p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/openshift-catalog-add-readiness-probe.png" alt="Che - Catalog Add Readiness Probe" width="500">
+<img src="openshift-catalog-add-readiness-probe.png" alt="Catalog Add Readiness Probe" width="500">
 </div>
 </div>
 <div class="paragraph">
