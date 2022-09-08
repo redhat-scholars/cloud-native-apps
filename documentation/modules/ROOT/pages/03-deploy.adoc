@@ -262,11 +262,11 @@ the *`Builder Image`* strategy and OpenShift will autodetect the runtime needed 
 
 image::git-import-dialog-3.png[Builder Image Strategy]
 
+* Specify the **Application**, select `coolstore`
+
 * Scroll down to the bottom of the dialog where you see the following options.
 
 image::git-import-dialog-4.png[Builder Image Strategy, 600]
-
-* Specify the **Application**, select `coolstore`
 
 * Click on **Deployment** the expand the section and add an environment variable. The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service that you used in the previous section. 
 

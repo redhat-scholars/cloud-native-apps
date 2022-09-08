@@ -9,7 +9,7 @@ You can provision your own development environment at https://developers.redhat.
 [.mt-4.center]
 image::sandbox-landing-page.png[Sandbox Image,align="center"]
 
-[#wot]
+[#wto]
 == Web Terminal Operator
 
 During some exercises we will use the Web Terminal Operator. 
