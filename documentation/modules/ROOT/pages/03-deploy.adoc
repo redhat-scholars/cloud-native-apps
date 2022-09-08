@@ -104,8 +104,10 @@ INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organ
 [.mt-4.center]
 image::che-editor-add-lines.png[Add lines in Editor Window]
 
-Next, go to `Terminal` -> `New Terminal` and select a container named `universal-developer-image`.
-A terminal window will open at the bottom of your editor and there you can input `mvn clean install`:
+Next go to `Terminal` -> `Run Tasks..`  and select `maven-build`
+
+TIP: You can also do it via CLI as follows: go to `Terminal` -> `Open Terminal in Specific Container` and select a container with name `tools`.
+A terminal window will open at the bottom of your editor and there you can input Maven commands such as `mvn clean install`.
 
 image::universal-devimage-container-run-mvn.png[Run Maven in Terminal]
 
