@@ -19,9 +19,9 @@ crafted from the best of breed Java libraries and standards.
 
 **Container First**: https://quarkus.io/[Quarkus^] tailors your application for GraalVM and HotSpot. Amazingly fast boot time, incredibly low RSS memory
 (not just heap size!) offering near instant scale up and high density memory utilization in container orchestration platforms
-like Kubernetes. We use a technique we call https://quarkus.io/vision/container-first[compile time boot^].
+like Kubernetes. We use a technique we call https://quarkus.io/container-first/[compile time boot^].
 
-**Unifies Imperative and Reactive**: Combine both the familiar https://quarkus.io/vision/continuum[imperative code and 
+**Unifies Imperative and Reactive**: Combine both the familiar https://quarkus.io/continuum/[imperative code and 
 the non-blocking reactive style^] when developing applications
 
 **Developer Joy**: A cohesive platform for optimized developer joy:
@@ -32,7 +32,7 @@ the non-blocking reactive style^] when developing applications
 * No hassle native executable generation
 
 **Best of Breed Libraries and Standards**: Quarkus brings a cohesive, fun to use full-stack framework by leveraging best of breed libraries you
-love and use wired on a https://quarkus.io/vision/standards[standard backbone^].
+love and use wired on a https://quarkus.io/standards/[standard backbone^].
 --
 
 Next, we will use Helm to deploy the `https://github.com/modernizing-java-applications-book/inventory-quarkus` application.
@@ -78,46 +78,58 @@ The opinionated approach means many choices about Spring platform and third-part
 are already made by Spring Boot so that you can get started with minimum effort and configuration.
 --
 
-This exercise starts by going to your `CodeReady Workspaces` and input `https://github.com/modernizing-java-applications-book/catalog-spring-boot.git` via `Quick Add`:
+This exercise starts by going to your `OpenShift Dev Spaces` and create a new workspace using the following repository URL as input `https://github.com/modernizing-java-applications-book/catalog-spring-boot.git` via `Quick Add`:
 
 [.mt-4.center]
-image::create-workspace.png[Create Workspace,600,600,align="center"]
+image::dev-spaces-quick-add-create-workspace.png[Quick Add to Create Workspace]
 
 Then click `Create & Open` button to import the project.
 
-Locate `/projects/catalog-spring-boot/src/main/resources/import.sql` in the newly imported project and add the following lines to it:
+[.mt-4.center]
+image::dev-spaces-import-from-git.png[Import Workspace from Git Repository]
+
+Locate `/projects/catalog-spring-boot/src/main/resources/import.sql` in the newly imported project:
+
+[.mt-4.center]
+image::che-project-explorer-locate-file.png[Locate File in Project Explorer]
+
+Add the following two lines of SQL into `import.sql`:
+
 [source,sql,subs="+macros,+attributes"]
 ----
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);
 ----
 
-Next, go to `Terminal` -> `Open Terminal in Specific Container` and select a container with name beginning with `vscode-`.
+[.mt-4.center]
+image::che-editor-add-lines.png[Add lines in Editor Window]
+
+Next, go to `Terminal` -> `New Terminal` and select a container named `universal-developer-image`.
 A terminal window will open at the bottom of your editor and there you can input `mvn clean install`:
 
-image::mvn-clean-install.png[Maven,600,600,align="center"]
+image::universal-devimage-container-run-mvn.png[Run Maven in Terminal]
 
 After packaging the application, you can expand your target folder on left-hand side and observe the results:
 
 image::build-results.png[Build results,600,600,align="center"]
 
-You should download locally the build results by right-clicking and saving the jar on your computer.
+You should download the build results by right-clicking and saving the jar on your local computer.
 In order to deploy our recent build we will use this downloaded jar.
 
 * Go to your `Developer Sandbox for Red Hat OpenShift`.
-* Click on `+Add` button and locate `Upload Jar File` option
+* Click on `+Add` button and locate the `Upload JAR File` option
 
 image::upload-jar.png[Upload jar,600,600,align="center"]
-* Browse the location of the jar from your local computer and odify the *`Builder Image Version`* to be `openjdk-11-el7`:
 
-image::builder-image-version.png[Builder image version,400,400,align="center"]
-You can also modify the *`Runtime icon`* to `spring-boot`.
+* In the Upload JAR file dialog, browse the location of the jar from your local computer and modify the *`Builder Image Version`* to be `openjdk-11-el7`. Optionally, you can also modify the *`Runtime icon`* to `spring-boot`.
 
-* In the *`General Section`* change the *`Application name`* to `coolstore` and the *`Name`* to `catalog-spring-boot`:
+image::upload-jar-file-dialog-settings-1.png[JAR Upload Dialog,600,600,align="center"]
 
-image::general-catalog-name.png[General Section,600,600,align="center"]
+* In the *`General Section`* choose `Create Application` from the *`Application`*  drop-down , use `coolstore` as the *`Application name`* and set the *`Name`* to `catalog-spring-boot`:
 
-* Press `Create` button.
+image::upload-jar-file-dialog-settings-2.png[JAR Upload Dialog,600,600,align="center"]
+
+* Press the `Create` button.
 
 [TIP]
 ====
@@ -141,7 +153,7 @@ Then `*click on 'Test it'*`. You should have a similar array of json output:
 [{"itemId":"100000","name":"Red Fedora","description":"Official Red Hat Fedora","price":34.99},{"itemId":"329299","name":"Quarkus T-shirt","description":"This updated unisex essential fits like a well-loved favorite, featuring a crew neck, short sleeves and designed with superior combed and ring- spun cotton.","price":10.0},{"itemId":"329199","name":"Pronounced Kubernetes","description":"Kubernetes is changing how enterprises work in the cloud. But one of the biggest questions people have is: How do you pronounce it?","price":9.0},{"itemId":"165613","name":"Knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15},{"itemId":"165614","name":"Quarkus H2Go water bottle","description":"Sporty 16. 9 oz double wall stainless steel thermal bottle with copper vacuum insulation, and threaded insulated lid. Imprinted. Imported.","price":14.45},{"itemId":"165954","name":"Patagonia Refugio pack 28L","description":"Made from 630-denier 100% nylon (50% recycled/50% high-tenacity) plain weave; lined with 200-denier 100% recycled polyester. ...","price":6.0},{"itemId":"444434","name":"Red Hat Impact T-shirt","description":"This 4. 3 ounce, 60% combed ringspun cotton/40% polyester jersey t- shirt features a slightly heathered appearance. The fabric laundered for reduced shrinkage. Next Level brand apparel. Printed.","price":9.0},{"itemId":"444435","name":"Quarkus twill cap","description":"100% cotton chino twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"444437","name":"Nanobloc Universal Webcam Cover","description":"NanoBloc Webcam Cover fits phone, laptop, desktop, Pc, MacBook Pro, iMac, ...","price":2.75},{"itemId":"444439","name":"Organic Cotton Quarkus twill cap","description":"100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"165623","name":"Organic Cotton knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15}]
 ----
 
-Well done! You are ready to move on to the next lab.
+Well done! You are ready to move on to the next section.
 
 [#yaml]
 == Deploy Gateway Service using YAML
@@ -181,21 +193,28 @@ container image of it.
 In the OpenShift Web Console, from the **Developer view**,
 `*click on '+Add' and select 'Import from Git'*`
 
-image::openshift-add-from-git.png[OpenShift - Add from Git, 700]
+image::dev-view-add-git-import.png[OpenShift - Add from Git]
 
-* Fill in the *`Git Repo URL`* with `https://github.com/modernizing-java-applications-book/web-nodejs.git`.
-Also, update *`Git reference`* to `main`.
+* In the Git Import dialog fill in the *`Git Repo URL`* with `https://github.com/modernizing-java-applications-book/web-nodejs.git`. Next click `show advanced Git options` to update the *`Git reference`* to `main`.
 
-image::git-url-branch.png[Git Repo URL and reference, 700]
+image::git-import-dialog-1.png[Git Repo URL and reference, 500]
 
-* Next, select the *`Builder Image`* strategy and OpenShift will autodetect the runtime needed by the code.
+* Further below in the dialog you will see the following notes about import strategies.
 
-image::builder-image.png[Builder Image, 700]
+image::git-import-dialog-2.png[Import Strategy, 500]
 
-* Expand the `Deployment` and add environment variable.
-The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service.
+* Click `Edit Import Strategy`, select 
+the *`Builder Image`* strategy and OpenShift will autodetect the runtime needed by the code, which in this case should be Node.js
 
-image::secure-env-variable.png[Environment variable, 700]
+image::git-import-dialog-3.png[Builder Image Strategy]
+
+* Scroll down to the bottom of the dialog where you see the following options.
+
+image::git-import-dialog-4.png[Builder Image Strategy, 600]
+
+* Click on `Deployment` the expand the section and add an environment variable. The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service.
+
+image::git-import-dialog-5.png[Builder Image Strategy, 600]
 
 In a second tab, find the URL associated with the Route to Gateway Service. You can find it using *OpenShift Web Console -> Project -> Routes* or the OpenShift CLI:
 
