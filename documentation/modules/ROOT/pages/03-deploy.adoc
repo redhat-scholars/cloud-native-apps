@@ -204,7 +204,7 @@ http://vertx.io/[Eclipse Vert.x^] is designed to be event-driven and non-blockin
 For this type of deployment we can use YAML files already available at https://github.com/modernizing-java-applications-book/gateway-vertx.git.
 
 * Go to your `Developer Sandbox for Red Hat OpenShift`.
-* Click on **+Add** button and locate **From YAML** option
+* Click on **+Add** button and locate **From Local Machine** option, then select **From YAML**
 
 image::from-yaml.png[From YAML, 600,600,align="center"]
 
