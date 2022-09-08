@@ -7,7 +7,7 @@ include::_attributes.adoc[]
 You can provision your own development environment at https://developers.redhat.com/developer-sandbox/get-started[https://developers.redhat.com/developer-sandbox/get-started]:
 
 [.mt-4.center]
-image::sandbox-account.png[Sandbox Image,400,400,align="center"]
+image::sandbox-landing-page.png[Sandbox Image,align="center"]
 
 [#wot]
 == Web Terminal Operator
@@ -17,7 +17,7 @@ This operator is already installed in the Red Hat OpenShift Developer Sandbox an
 
 * To launch the web terminal, click the command line terminal icon 
 
-image::odc-icon.png[50, 50]
+image::icon-bar-web-terminal.png[Web Terminal Icon,200]
 on the upper right of the console. A web terminal instance is displayed in the Command line terminal pane. This instance is automatically logged in with your credentials.
 
 * Select the project where the DevWorkspace Custom Resource must be created from the Project drop-down list. By default, the current project is selected.
@@ -27,7 +27,7 @@ on the upper right of the console. A web terminal instance is displayed in the C
 * Type `help` to list the available command line tools.
 
 [.mt-4.center]
-image::web-terminal-operator.png[Sandbox Image,600,600,align="center"]
+image::web-terminal-operator.png[Sandbox Image Web Terminal]
 
 
 [#downloadtutorial]

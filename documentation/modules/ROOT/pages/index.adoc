@@ -9,7 +9,7 @@ With this hands on lab you will discover OpenShift Developer Tools such as:
 
 * link:https://docs.openshift.com/container-platform/4.10/web_console/web-console.html[OpenShift Web Console]
 * link:https://helm.sh[Helm]
-* link:https://developers.redhat.com/products/openshift-dev-spaces/overview[CodeReady Workspaces and IDE plugins]
+* link:https://developers.redhat.com/products/openshift-dev-spaces/overview[OpenShift Dev Spaces and IDE plugins]
 * link:https://docs.openshift.com/container-platform/4.10/openshift_images/using_images/using-s21-images.html[Source-to-Image]
 
 You will implement a microservices-based architecture to deploy the Red Hat Coolstore e-shop:
