@@ -92,8 +92,10 @@ INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organ
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);
 ----
 
-Next, go to `Terminal` -> `Open Terminal in Specific Container` and select a container with name beginning with `vscode-`.
-A terminal window will open at the bottom of your editor and there you can input `mvn clean install`:
+Next go to `Terminal` -> `Run Tasks..`  and select `maven-build`
+
+TIP: You can also do it via CLI as follows: go to `Terminal` -> `Open Terminal in Specific Container` and select a container with name `tools`.
+A terminal window will open at the bottom of your editor and there you can input Maven commands such as `mvn clean install`.
 
 image::mvn-clean-install.png[Maven,600,600,align="center"]
 
