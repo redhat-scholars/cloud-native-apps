@@ -198,76 +198,70 @@ image::openshift-inventory-events-failed-check.png[OpenShift Inventory Event Fai
 [#understanding_readiness]
 ==  Understanding Readiness Probes
 
-**What happens if you DON'T setup Readiness checks?**
+What happens if you DON'T setup Readiness checks? Let's simulate traffic to the _Catalog Service_ to find out.
 
-Let's imagine you have traffic to the _Catalog Service_
-
-`*Execute the following commands in the '>_' terminal window*`
-
-[source,shell,subs="{markup-in-source}",role=copypaste]
+. Execute the following command in the `>_` terminal window:
++
+[.console-input]
+[source,bash,subs="{markup-in-source}"]
 ----
 for i in {1..60}
 do 
     if curl -s -o /dev/null http://catalog-spring-boot:8080/actuator/health;
     then 
-        MSG="\033[0;32mThe request to Inventory Service has succeeded\033[0m"
+        MSG="\033[0;32mThe request to Catalog Service has succeeded\033[0m"
     else 
-        MSG="\033[0;31mERROR - The request to Inventory Service has failed\033[0m" 
+        MSG="\033[0;31mERROR - The request to Catalog Service has failed\033[0m" 
     fi
     
     echo -e $MSG
-    sleep 2s
+    sleep 1s
 done
 ----
-
-You should have the following output:
-
+. You should see output similar to this:
++
 image::che-catalog-traffic-ok.png[Catalog Traffic OK, 500]
-
-Now let's scale out your _Catalog Service_ to 2 instances.
-
-In the OpenShift Web Console, from the **Developer view**,
-`*click on 'Topology' -> '(D) catalog-spring-boot' -> 'Details' then click once on the up arrows
-on the right side of the pod blue circle*`.
-
+. Scale out your _Catalog Service_ to 2 instances:
+    * Open the **Developer** perspective in the OpenShift Web Console.
+    * Click on Topology in the side-menu.
+    * Select the _catalog-spring-boot_ by clicking it's node in the Topology view.
+    * Switch to the *Details* tab, then click once on the up arrow on the right side of the blue Pod circle.
++
 image::openshift-scale-out-catalog.png[OpenShift Scale Out Catalog, 700]
+. You should see the 2 instances (Pods) running.
+. Now, observe the `>_` terminal window and the output of the `curl` command loop:
++
+image::che-catalog-traffic-ko.png[Catalog Traffic KO]
 
-You should see the 2 instances (pods) running.
-Now, `*switch back to your '>_' terminal window*` and check the output of the `curl` commands:
+Notice how some of the requests failed? This is because traffic is sent to the new Pod as soon it is created, even if the application is not ready to accept traffic. Since the _Catalog Service_ takes up to 20 seconds to start up, traffic that reaches the new Pod during that start up period will fail to receive a response.
 
-image::che-catalog-traffic-ko.png[Catalog Traffic KO, 500]
-
-**Why do some requests failed? Because as soon as the container is created, the traffic is sent to this new instance even if the application is not ready.**
-(The _Catalog Service_ takes more than 20 seconds to start up).
-
-In order to prevent this behaviour, a **Readiness check** is needed. It determines if the container in which it is scheduled is ready to service requests.
-If the readiness probe fails a container, the endpoints controller ensures the container has its IP address removed from the endpoints of all services.
+A **Readiness Probe** is required to prevent this from happening. The status returned by a readiness probe determines if the container which it targets can service incoming requests.
+If the readiness probe fails for a given Pod, the endpoints controller ensures the container has its IP address removed from the endpoints of all services.
 A readiness probe can be used to signal to the endpoints controller that even though a container is running, it should not receive any traffic from a proxy.
 
 [#configuring_readiness]
 ==  Configuring Readiness Probes
 
-First, scale down your _Catalog Service_ to 1 instance. In the {OPENSHIFT_CONSOLE_URL}[OpenShift Web Console^, role='params-link'], from the **Developer view**,
+First, scale down your _Catalog Service_ to 1 instance. In the OpenShift Web Console, from the **Developer view**,
 `*click on 'Topology' -> '(D) catalog-coolstore' -> 'Details' then click once on the down arrows
 on the right side of the pod blue circle*`.
 
 http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready[Spring Boot Actuator^] is a
 sub-project of Spring Boot which adds health and management HTTP endpoints to the application. Enabling Spring Boot
 Actuator is done via adding **org.springframework.boot:spring-boot-starter-actuator** dependency to the Maven project
-dependencies which is already done for the **Catalog Service**.
+dependencies which is already done for the _Catalog Service_.
 
-Verify that the health endpoint works for the **Catalog Service** using `*curl*`.
+Verify that the health endpoint works for the _Catalog Service_:
 
-In your browser, access the path `/actuator/health` under the URL associated to the Route of Catalog microservice:
-
+. Find the _Catalog Service_ node in the Topology View in the OpenShift Web Console.
+. Click on the **Open URL** icon associated with the _Catalog Service_. This will open a new tab that displays a default homepage for the _Catalog Service_.
++
+image::monitoring-open-catalog-url.png[Open URL icon for the Catalog Service]
+. Append `/actuator/health` to the _Catalog Service_ URL in your web-browser's address bar. This should return a JSON response as shown:
++
 image::actuator-endpoint.png[Actuator endpoint, 700]
 
-You should have the following output:
-
-[source,json,subs="{markup-in-source}"]
-----
-{"status":"UP"}
-----
+This endpoint can be used by a **Readiness Probe** to determine that the service is ready to accept incoming HTTP requests.
 
 In the OpenShift Web Console, from the **Developer view**,
 `*click on 'Topology' -> '(D) catalog-coolstore' -> 'Add Health Checks'*`.
