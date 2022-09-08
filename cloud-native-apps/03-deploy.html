@@ -168,10 +168,10 @@ crafted from the best of breed Java libraries and standards.</p>
 <div class="paragraph">
 <p><strong>Container First</strong>: <a href="https://quarkus.io/" target="_blank" rel="noopener">Quarkus</a> tailors your application for GraalVM and HotSpot. Amazingly fast boot time, incredibly low RSS memory
 (not just heap size!) offering near instant scale up and high density memory utilization in container orchestration platforms
-like Kubernetes. We use a technique we call <a href="https://quarkus.io/vision/container-first" target="_blank" rel="noopener">compile time boot</a>.</p>
+like Kubernetes. We use a technique we call <a href="https://quarkus.io/container-first/" target="_blank" rel="noopener">compile time boot</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Unifies Imperative and Reactive</strong>: Combine both the familiar <a href="https://quarkus.io/vision/continuum" target="_blank" rel="noopener">imperative code and
+<p><strong>Unifies Imperative and Reactive</strong>: Combine both the familiar <a href="https://quarkus.io/continuum/" target="_blank" rel="noopener">imperative code and
 the non-blocking reactive style</a> when developing applications</p>
 </div>
 <div class="paragraph">
@@ -195,7 +195,7 @@ the non-blocking reactive style</a> when developing applications</p>
 </div>
 <div class="paragraph">
 <p><strong>Best of Breed Libraries and Standards</strong>: Quarkus brings a cohesive, fun to use full-stack framework by leveraging best of breed libraries you
-love and use wired on a <a href="https://quarkus.io/vision/standards" target="_blank" rel="noopener">standard backbone</a>.</p>
+love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" rel="noopener">standard backbone</a>.</p>
 </div>
 </div>
 </div>
@@ -299,23 +299,41 @@ are already made by Spring Boot so that you can get started with minimum effort 
 </div>
 </div>
 <div class="paragraph">
-<p>This exercise starts by going to your <code>CodeReady Workspaces</code> and input <code><a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot.git" class="bare">https://github.com/modernizing-java-applications-book/catalog-spring-boot.git</a></code> via <code>Quick Add</code>:</p>
+<p>This exercise starts by going to your <code>OpenShift Dev Spaces</code> and create a new workspace using the following repository URL as input <code><a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot.git" class="bare">https://github.com/modernizing-java-applications-book/catalog-spring-boot.git</a></code> via <code>Quick Add</code>:</p>
 </div>
-<div class="imageblock text-center mt-4 center">
+<div class="imageblock mt-4 center">
 <div class="content">
-<img src="_images/create-workspace.png" alt="Create Workspace" width="600" height="600">
+<img src="_images/dev-spaces-quick-add-create-workspace.png" alt="Quick Add to Create Workspace">
 </div>
 </div>
 <div class="paragraph">
 <p>Then click <code>Create &amp; Open</code> button to import the project.</p>
 </div>
+<div class="imageblock mt-4 center">
+<div class="content">
+<img src="_images/dev-spaces-import-from-git.png" alt="Import Workspace from Git Repository">
+</div>
+</div>
 <div class="paragraph">
-<p>Locate <code>/projects/catalog-spring-boot/src/main/resources/import.sql</code> in the newly imported project and add the following lines to it:</p>
+<p>Locate <code>/projects/catalog-spring-boot/src/main/resources/import.sql</code> in the newly imported project:</p>
+</div>
+<div class="imageblock mt-4 center">
+<div class="content">
+<img src="_images/che-project-explorer-locate-file.png" alt="Locate File in Project Explorer">
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following two lines of SQL into <code>import.sql</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);</code></pre>
+</div>
+</div>
+<div class="imageblock mt-4 center">
+<div class="content">
+<img src="_images/che-editor-add-lines.png" alt="Add lines in Editor Window">
 </div>
 </div>
 <div class="paragraph">
@@ -334,9 +352,9 @@ A terminal window will open at the bottom of your editor and there you can input
 </tr>
 </table>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/mvn-clean-install.png" alt="Maven" width="600" height="600">
+<img src="_images/universal-devimage-container-run-mvn.png" alt="Run Maven in Terminal">
 </div>
 </div>
 <div class="paragraph">
@@ -348,7 +366,7 @@ A terminal window will open at the bottom of your editor and there you can input
 </div>
 </div>
 <div class="paragraph">
-<p>You should download locally the build results by right-clicking and saving the jar on your computer.
+<p>You should download the build results by right-clicking and saving the jar on your local computer.
 In order to deploy our recent build we will use this downloaded jar.</p>
 </div>
 <div class="ulist">
@@ -357,7 +375,7 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <p>Go to your <code>Developer Sandbox for Red Hat OpenShift</code>.</p>
 </li>
 <li>
-<p>Click on <code>+Add</code> button and locate <code>Upload Jar File</code> option</p>
+<p>Click on <code>+Add</code> button and locate the <code>Upload JAR File</code> option</p>
 </li>
 </ul>
 </div>
@@ -369,34 +387,31 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Browse the location of the jar from your local computer and odify the <strong><code>Builder Image Version</code></strong> to be <code>openjdk-11-el7</code>:</p>
+<p>In the Upload JAR file dialog, browse the location of the jar from your local computer and modify the <strong><code>Builder Image Version</code></strong> to be <code>openjdk-11-el7</code>. Optionally, you can also modify the <strong><code>Runtime icon</code></strong> to <code>spring-boot</code>.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="_images/builder-image-version.png" alt="Builder image version" width="400" height="400">
+<img src="_images/upload-jar-file-dialog-settings-1.png" alt="JAR Upload Dialog" width="600" height="600">
 </div>
-</div>
-<div class="paragraph">
-<p>You can also modify the <strong><code>Runtime icon</code></strong> to <code>spring-boot</code>.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>In the <strong><code>General Section</code></strong> change the <strong><code>Application name</code></strong> to <code>coolstore</code> and the <strong><code>Name</code></strong> to <code>catalog-spring-boot</code>:</p>
+<p>In the <strong><code>General Section</code></strong> choose <code>Create Application</code> from the <strong><code>Application</code></strong>  drop-down , use <code>coolstore</code> as the <strong><code>Application name</code></strong> and set the <strong><code>Name</code></strong> to <code>catalog-spring-boot</code>:</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="_images/general-catalog-name.png" alt="General Section" width="600" height="600">
+<img src="_images/upload-jar-file-dialog-settings-2.png" alt="JAR Upload Dialog" width="600" height="600">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Press <code>Create</code> button.</p>
+<p>Press the <code>Create</code> button.</p>
 </li>
 </ul>
 </div>
@@ -444,7 +459,7 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Well done! You are ready to move on to the next lab.</p>
+<p>Well done! You are ready to move on to the next section.</p>
 </div>
 </div>
 </div>
@@ -524,45 +539,68 @@ container image of it.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-add-from-git.png" alt="OpenShift - Add from Git" width="700">
+<img src="_images/dev-view-add-git-import.png" alt="OpenShift - Add from Git">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Fill in the <strong><code>Git Repo URL</code></strong> with <code><a href="https://github.com/modernizing-java-applications-book/web-nodejs.git" class="bare">https://github.com/modernizing-java-applications-book/web-nodejs.git</a></code>.
-Also, update <strong><code>Git reference</code></strong> to <code>main</code>.</p>
+<p>In the Git Import dialog fill in the <strong><code>Git Repo URL</code></strong> with <code><a href="https://github.com/modernizing-java-applications-book/web-nodejs.git" class="bare">https://github.com/modernizing-java-applications-book/web-nodejs.git</a></code>. Next click <code>show advanced Git options</code> to update the <strong><code>Git reference</code></strong> to <code>main</code>.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/git-url-branch.png" alt="Git Repo URL and reference" width="700">
+<img src="_images/git-import-dialog-1.png" alt="Git Repo URL and reference" width="500">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Next, select the <strong><code>Builder Image</code></strong> strategy and OpenShift will autodetect the runtime needed by the code.</p>
+<p>Further below in the dialog you will see the following notes about import strategies.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/builder-image.png" alt="Builder Image" width="700">
+<img src="_images/git-import-dialog-2.png" alt="Import Strategy" width="500">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Expand the <code>Deployment</code> and add environment variable.
-The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
+<p>Click <code>Edit Import Strategy</code>, select
+the <strong><code>Builder Image</code></strong> strategy and OpenShift will autodetect the runtime needed by the code, which in this case should be Node.js</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/secure-env-variable.png" alt="Environment variable" width="700">
+<img src="_images/git-import-dialog-3.png" alt="Builder Image Strategy">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Scroll down to the bottom of the dialog where you see the following options.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/git-import-dialog-4.png" alt="Builder Image Strategy" width="600">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Deployment</code> the expand the section and add an environment variable. The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/git-import-dialog-5.png" alt="Builder Image Strategy" width="600">
 </div>
 </div>
 <div class="paragraph">
