@@ -7,7 +7,7 @@
 = Get your Developer Workspace
 :navtitle: Get your Developer Workspace
 
-_10 MINUTES EXERCISE_
+_10 MINUTE EXERCISE_
 
 In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform
 and getting familiar with the OpenShift CLI and OpenShift Web Console.
