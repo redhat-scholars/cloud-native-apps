@@ -208,7 +208,7 @@ Let's imagine you have traffic to the _Catalog Service_
 ----
 for i in {1..60}
 do 
-    if [ $(curl -s -w "200" -o /dev/null http://catalog-spring-boot:8080/actuator/health) == "200" ]
+    if curl -s -o /dev/null http://catalog-spring-boot:8080/actuator/health;
     then 
         MSG="\033[0;32mThe request to Inventory Service has succeeded\033[0m"
     else 
