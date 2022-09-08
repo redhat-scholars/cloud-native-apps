@@ -151,13 +151,6 @@ image::upload-jar-file-dialog-settings-2.png[JAR Upload Dialog,600,600,align="ce
 
 * Press the **Create** button.
 
-[TIP]
-====
-You can make the previous Helm installation of the Quarkus microservice part of your `coolstore` application by editing its labels and adding `app.kubernetes.io/part-of=coolstore`. You can also drag and drop it to the `coolstore` app by pressing CTRL command.
-
-image::edit-labels.png[Edit labels,600,600,align="center"]
-====
-
 You can validate your deployment by accessing the application via its route url:
 
 image::route.png[Route,600,600,align="center"]
@@ -173,6 +166,13 @@ Then `*click on 'Test it'*`. You should have a similar array of json output:
 [{"itemId":"100000","name":"Red Fedora","description":"Official Red Hat Fedora","price":34.99},{"itemId":"329299","name":"Quarkus T-shirt","description":"This updated unisex essential fits like a well-loved favorite, featuring a crew neck, short sleeves and designed with superior combed and ring- spun cotton.","price":10.0},{"itemId":"329199","name":"Pronounced Kubernetes","description":"Kubernetes is changing how enterprises work in the cloud. But one of the biggest questions people have is: How do you pronounce it?","price":9.0},{"itemId":"165613","name":"Knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15},{"itemId":"165614","name":"Quarkus H2Go water bottle","description":"Sporty 16. 9 oz double wall stainless steel thermal bottle with copper vacuum insulation, and threaded insulated lid. Imprinted. Imported.","price":14.45},{"itemId":"165954","name":"Patagonia Refugio pack 28L","description":"Made from 630-denier 100% nylon (50% recycled/50% high-tenacity) plain weave; lined with 200-denier 100% recycled polyester. ...","price":6.0},{"itemId":"444434","name":"Red Hat Impact T-shirt","description":"This 4. 3 ounce, 60% combed ringspun cotton/40% polyester jersey t- shirt features a slightly heathered appearance. The fabric laundered for reduced shrinkage. Next Level brand apparel. Printed.","price":9.0},{"itemId":"444435","name":"Quarkus twill cap","description":"100% cotton chino twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"444437","name":"Nanobloc Universal Webcam Cover","description":"NanoBloc Webcam Cover fits phone, laptop, desktop, Pc, MacBook Pro, iMac, ...","price":2.75},{"itemId":"444439","name":"Organic Cotton Quarkus twill cap","description":"100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"165623","name":"Organic Cotton knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15}]
 ----
 
+[TIP]
+====
+You can make the previous Helm installation of the Quarkus microservice part of your `coolstore` application by editing its labels and adding `app.kubernetes.io/part-of=coolstore`. You can also drag and drop it to the `coolstore` app by pressing CTRL command.
+
+image::edit-labels.png[Edit labels,600,600,align="center"]
+====
+
 Well done! You are ready to move on to the next section.
 
 [#yaml]
@@ -180,7 +180,27 @@ Well done! You are ready to move on to the next section.
 
 _10 MINUTES EXERCISE_
 
-During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs.
+During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs using Eclipse Vert.x
+
+[sidebar]
+--
+image:vertx-logo.png[Vertx, 400]
+
+http://vertx.io/[Eclipse Vert.x^] is a toolkit for building reactive applications on the Java Virtual Machine (JVM). Vert.x does not 
+impose a specific framework or packaging model and can be used within your existing applications and frameworks 
+in order to add reactive functionality by just adding the Vert.x jar files to the application classpath.
+
+http://vertx.io/[Eclipse Vert.x^] enables building reactive systems as defined by http://www.reactivemanifesto.org[The Reactive Manifesto^] and build 
+services that are:
+
+* *Responsive*: to handle requests in a reasonable time
+* *Resilient*: to stay responsive in the face of failures
+* *Elastic*: to stay responsive under various loads and be able to scale up and down
+* *Message driven*: components interact using asynchronous message-passing
+
+http://vertx.io/[Eclipse Vert.x^] is designed to be event-driven and non-blocking. Events are delivered in an event loop that must never be blocked. Unlike traditional applications, Vert.x uses a very small number of threads responsible for dispatching the events to event handlers. If the event loop is blocked, the events won’t be delivered anymore and therefore the code needs to be mindful of this execution model.
+--
+
 For this type of deployment we can use YAML files already available at https://github.com/modernizing-java-applications-book/gateway-vertx.git.
 
 * Go to your `Developer Sandbox for Red Hat OpenShift`.
@@ -189,13 +209,27 @@ For this type of deployment we can use YAML files already available at https://g
 image::from-yaml.png[From YAML, 600,600,align="center"]
 
 * Locate the YAML files inside https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml and use the `Copy` feature of GitHub to copy their content.
-* Now paste the YAML content in your sandbox and hit `Create` button.
+* Now paste using control-v or command-v the YAML content in your sandbox and hit **Create** button.
 
 image::import-yaml.png[Import YAML, 600,600,align="center"]
 
 * You should see the following results:
 
 image::successful-yaml-import.png[Successful YAML import, 600,600,align="center"]
+
+Go back to the **Topology**, go to the newly created `gateway-vertx` and click to the little arrow as shown below, this will open the Gateway URL:
+
+image::openshift-gateway-route.png[Gateway Vertx Route, 400,400,align="center"]
+
+You can find the Route also by navigating to *OpenShift Web Console -> Project -> Routes* or the OpenShift CLI inside the Web Terminal:
+
+image::gateway-service-url.png[Gateway Service URL, 700]
+
+[source,bash,subs="+macros,+attributes"]
+----
+oc get route gateway-vertx
+----
+
 
 [#git]
 == Deploy Web UI from Git
@@ -232,22 +266,29 @@ image::git-import-dialog-3.png[Builder Image Strategy]
 
 image::git-import-dialog-4.png[Builder Image Strategy, 600]
 
-* Click on **Deployment** the expand the section and add an environment variable. The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service.
+* Specify the **Application**, select `coolstore`
+
+* Click on **Deployment** the expand the section and add an environment variable. The environment variable name is `SECURE_COOLSTORE_GW_ENDPOINT` and the value is the URL associated with the Route to Gateway Service that you used in the previous section. 
 
 image::git-import-dialog-5.png[Builder Image Strategy, 600]
 
-In a second tab, find the URL associated with the Route to Gateway Service. You can find it using *OpenShift Web Console -> Project -> Routes* or the OpenShift CLI with the Web Terminal:
-
-image::gateway-service-url.png[Gateway Service URL, 700]
-
-[source,bash,subs="+macros,+attributes"]
-----
-oc get routes
-----
-
 * Press *`Create`* button to finish the deployment.
 
-You can check the deployed application by accessing the Route of the last deployment.
+
 The final view of the deployed applications should be similar to this one:
 
+image::openshift-all-deployed.png[Deployments Overview, 700]
+
+
+You can also connect all microservices just from a visualization point of view as the following image: 
+
+
 image::final-overview.png[Deployments Overview, 700]
+
+You can check the deployed application by accessing the Route of the last deployment `web-nodejs`:
+
+image::https://github.com/modernizing-java-applications-book/web-nodejs/blob/main/coolstore-web.png?raw=true[Coolstore Shop,600] 
+
+Congrats!! You have implemented an e-store using a microservices based architecture! 
+
+
