@@ -144,7 +144,7 @@
 <h2 id="helm"><a class="anchor" href="#helm"></a>Deploy a Quarkus MicroService with Helm</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>10 MINUTES EXERCISE</em></p>
+<p><em>20 MINUTES EXERCISE</em></p>
 </div>
 <div class="paragraph">
 <p>In this section you will learn about deploying microservices using Helm Charts.</p>
@@ -171,8 +171,7 @@ crafted from the best of breed Java libraries and standards.</p>
 like Kubernetes. We use a technique we call <a href="https://quarkus.io/container-first/" target="_blank" rel="noopener">compile time boot</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Unifies Imperative and Reactive</strong>: Combine both the familiar <a href="https://quarkus.io/continuum/" target="_blank" rel="noopener">imperative code and
-the non-blocking reactive style</a> when developing applications</p>
+<p><strong>Unifies Imperative and Reactive</strong>: Combine both the familiar <a href="https://quarkus.io/continuum/" target="_blank" rel="noopener">imperative code and the non-blocking reactive style</a> when developing applications</p>
 </div>
 <div class="paragraph">
 <p><strong>Developer Joy</strong>: A cohesive platform for optimized developer joy:</p>
@@ -205,7 +204,7 @@ love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" 
 <div class="ulist">
 <ul>
 <li>
-<p>Go to your Developer Sandbox for Red Hat OpenShift (the Web UI tab) and select <code>Helm</code> from the left hand side menu:</p>
+<p>Go to your Developer Sandbox for Red Hat OpenShift (the Web UI tab) and select <strong>Helm</strong> from the left hand side menu:</p>
 </li>
 </ul>
 </div>
@@ -217,7 +216,7 @@ love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" 
 <div class="ulist">
 <ul>
 <li>
-<p>Click on <code>Install a Helm Chart from the developer catalog</code> link.</p>
+<p>Click on <strong>Install a Helm Chart from the developer catalog</strong> link.</p>
 </li>
 <li>
 <p>Type <code>Quarkus</code> in the input field associated with search function and click on the result found.</p>
@@ -232,7 +231,7 @@ love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" 
 <div class="ulist">
 <ul>
 <li>
-<p>Click the <code>Install Helm Chart</code> button and follow the next steps to adjust the chart values.</p>
+<p>Click the <strong>Install Helm Chart</strong> button and follow the next steps to adjust the chart values.</p>
 </li>
 <li>
 <p>Change the release name to <code>inventory-quarkus</code></p>
@@ -247,7 +246,7 @@ love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" 
 <div class="ulist">
 <ul>
 <li>
-<p>Go to the <code>Build</code> section and expand it. Copy and paste the name of the repo: <code><a href="https://github.com/modernizing-java-applications-book/inventory-quarkus.git" class="bare">https://github.com/modernizing-java-applications-book/inventory-quarkus.git</a></code></p>
+<p>Go to the <strong>Build</strong> section and expand it. Copy and paste the name of the repo: <code><a href="https://github.com/modernizing-java-applications-book/inventory-quarkus.git" class="bare">https://github.com/modernizing-java-applications-book/inventory-quarkus.git</a></code></p>
 </li>
 </ul>
 </div>
@@ -259,9 +258,26 @@ love and use wired on a <a href="https://quarkus.io/standards/" target="_blank" 
 <div class="ulist">
 <ul>
 <li>
-<p>Finally, click <code>Install</code> button to have your charts installed.</p>
+<p>Finally, click <strong>Install</strong> button to have your charts installed.</p>
 </li>
 </ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/openshift-inventory-helm.png" alt="Quarkus Helm chart deployed" width="400" height="400">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The installation with Helm takes a few minutes, you can check the progress by following the build logs from the view.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -299,7 +315,7 @@ are already made by Spring Boot so that you can get started with minimum effort 
 </div>
 </div>
 <div class="paragraph">
-<p>This exercise starts by going to your <code>OpenShift Dev Spaces</code> and create a new workspace using the following repository URL as input <code><a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot.git" class="bare">https://github.com/modernizing-java-applications-book/catalog-spring-boot.git</a></code> via <code>Quick Add</code>:</p>
+<p>This exercise starts by going to your <code>OpenShift Dev Spaces</code> and create a new workspace using the following repository URL as input <code><a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot.git" class="bare">https://github.com/modernizing-java-applications-book/catalog-spring-boot.git</a></code> via <strong>Quick Add</strong>:</p>
 </div>
 <div class="imageblock mt-4 center">
 <div class="content">
@@ -307,7 +323,19 @@ are already made by Spring Boot so that you can get started with minimum effort 
 </div>
 </div>
 <div class="paragraph">
-<p>Then click <code>Create &amp; Open</code> button to import the project.</p>
+<p>Then click <strong>Create &amp; Open</strong> button to import the project.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You might be asked to login through <a href="https://github.com" target="_blank" rel="noopener">GitHub.com</a> with your user in order to access OpenShift Dev Spaces. This is due the GitHub OAuth plugin available in OpenShift Dev Spaces that let start using GitHub features such as Pull Requests, Issues etc from the environment.
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock mt-4 center">
 <div class="content">
@@ -337,7 +365,12 @@ INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organ
 </div>
 </div>
 <div class="paragraph">
-<p>Next go to <code>Terminal</code> &#8594; <code>Run Tasks..</code>  and select <code>maven-build</code></p>
+<p>Next go to <strong>Terminal</strong> &#8594; <strong>Run Tasks..</strong>  and select <strong>maven-build</strong></p>
+</div>
+<div class="imageblock mt-4 center">
+<div class="content">
+<img src="_images/run-maven.png" alt="Run Maven build">
+</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -346,7 +379,7 @@ INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organ
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can also do it via CLI as follows: go to <code>Terminal</code> &#8594; <code>Open Terminal in Specific Container</code> and select a container with name <code>tools</code>.
+You can also do it via CLI as follows: go to <strong>Terminal</strong> &#8594; <strong>Open Terminal in Specific Container</strong> and select a container with name <strong>tools</strong>.
 A terminal window will open at the bottom of your editor and there you can input Maven commands such as <code>mvn clean install</code>.
 </td>
 </tr>
@@ -372,10 +405,25 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Go to your <code>Developer Sandbox for Red Hat OpenShift</code>.</p>
+<p>Go back to the <strong>Topology view</strong> of your <code>Developer Sandbox for Red Hat OpenShift</code></p>
 </li>
 <li>
-<p>Click on <code>+Add</code> button and locate the <code>Upload JAR File</code> option</p>
+<p>Drag and drop the downloaded JAR into the Topology</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/drag-and-drop.png" alt="Drag and Drop JAR" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on +Add` button and locate the <code>Upload JAR File</code> option</p>
 </li>
 </ul>
 </div>
@@ -383,6 +431,9 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <div class="content">
 <img src="_images/upload-jar.png" alt="Upload jar" width="600" height="600">
 </div>
+</div>
+<div class="paragraph">
+<p>Then:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -411,7 +462,7 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Press the <code>Create</code> button.</p>
+<p>Press the <strong>Create</strong> button.</p>
 </li>
 </ul>
 </div>
@@ -423,7 +474,7 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>You can make the previous Helm installation of the Quarkus microservice part of your <code>coolstore</code> application by editing its labels and adding <code>app.kubernetes.io/part-of=coolstore</code>.</p>
+<p>You can make the previous Helm installation of the Quarkus microservice part of your <code>coolstore</code> application by editing its labels and adding <code>app.kubernetes.io/part-of=coolstore</code>. You can also drag and drop it to the <code>coolstore</code> app by pressing CTRL command.</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -467,7 +518,7 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <h2 id="yaml"><a class="anchor" href="#yaml"></a>Deploy Gateway Service using YAML</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>5 MINUTES EXERCISE</em></p>
+<p><em>10 MINUTES EXERCISE</em></p>
 </div>
 <div class="paragraph">
 <p>During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs.
@@ -479,7 +530,7 @@ For this type of deployment we can use YAML files already available at <a href="
 <p>Go to your <code>Developer Sandbox for Red Hat OpenShift</code>.</p>
 </li>
 <li>
-<p>Click on <code>+Add</code> button and locate <code>From YAML</code> option</p>
+<p>Click on <strong>+Add</strong> button and locate <strong>From YAML</strong> option</p>
 </li>
 </ul>
 </div>
@@ -521,7 +572,7 @@ For this type of deployment we can use YAML files already available at <a href="
 <h2 id="git"><a class="anchor" href="#git"></a>Deploy Web UI from Git</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>10 MINUTES EXERCISE</em></p>
+<p><em>15 MINUTES EXERCISE</em></p>
 </div>
 <div class="paragraph">
 <p>The Web UI is built using Node.js for server-side JavaScript and AngularJS for client-side
@@ -569,7 +620,7 @@ container image of it.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Click <code>Edit Import Strategy</code>, select
+<p>Click <strong>Edit Import Strategy</strong>, select
 the <strong><code>Builder Image</code></strong> strategy and OpenShift will autodetect the runtime needed by the code, which in this case should be Node.js</p>
 </li>
 </ul>
@@ -594,7 +645,7 @@ the <strong><code>Builder Image</code></strong> strategy and OpenShift will auto
 <div class="ulist">
 <ul>
 <li>
-<p>Click on <code>Deployment</code> the expand the section and add an environment variable. The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
+<p>Click on <strong>Deployment</strong> the expand the section and add an environment variable. The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
 </li>
 </ul>
 </div>
@@ -604,7 +655,7 @@ the <strong><code>Builder Image</code></strong> strategy and OpenShift will auto
 </div>
 </div>
 <div class="paragraph">
-<p>In a second tab, find the URL associated with the Route to Gateway Service. You can find it using <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI:</p>
+<p>In a second tab, find the URL associated with the Route to Gateway Service. You can find it using <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI with the Web Terminal:</p>
 </div>
 <div class="imageblock">
 <div class="content">
