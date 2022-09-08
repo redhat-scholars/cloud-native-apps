@@ -466,25 +466,6 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can make the previous Helm installation of the Quarkus microservice part of your <code>coolstore</code> application by editing its labels and adding <code>app.kubernetes.io/part-of=coolstore</code>. You can also drag and drop it to the <code>coolstore</code> app by pressing CTRL command.</p>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/edit-labels.png" alt="Edit labels" width="600" height="600">
-</div>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>You can validate your deployment by accessing the application via its route url:</p>
 </div>
@@ -509,6 +490,25 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">[{"itemId":"100000","name":"Red Fedora","description":"Official Red Hat Fedora","price":34.99},{"itemId":"329299","name":"Quarkus T-shirt","description":"This updated unisex essential fits like a well-loved favorite, featuring a crew neck, short sleeves and designed with superior combed and ring- spun cotton.","price":10.0},{"itemId":"329199","name":"Pronounced Kubernetes","description":"Kubernetes is changing how enterprises work in the cloud. But one of the biggest questions people have is: How do you pronounce it?","price":9.0},{"itemId":"165613","name":"Knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15},{"itemId":"165614","name":"Quarkus H2Go water bottle","description":"Sporty 16. 9 oz double wall stainless steel thermal bottle with copper vacuum insulation, and threaded insulated lid. Imprinted. Imported.","price":14.45},{"itemId":"165954","name":"Patagonia Refugio pack 28L","description":"Made from 630-denier 100% nylon (50% recycled/50% high-tenacity) plain weave; lined with 200-denier 100% recycled polyester. ...","price":6.0},{"itemId":"444434","name":"Red Hat Impact T-shirt","description":"This 4. 3 ounce, 60% combed ringspun cotton/40% polyester jersey t- shirt features a slightly heathered appearance. The fabric laundered for reduced shrinkage. Next Level brand apparel. Printed.","price":9.0},{"itemId":"444435","name":"Quarkus twill cap","description":"100% cotton chino twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"444437","name":"Nanobloc Universal Webcam Cover","description":"NanoBloc Webcam Cover fits phone, laptop, desktop, Pc, MacBook Pro, iMac, ...","price":2.75},{"itemId":"444439","name":"Organic Cotton Quarkus twill cap","description":"100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.","price":13.0},{"itemId":"165623","name":"Organic Cotton knit socks","description":"Your brand will get noticed on these full color knit socks. Imported.","price":4.15}]</code></pre>
 </div>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can make the previous Helm installation of the Quarkus microservice part of your <code>coolstore</code> application by editing its labels and adding <code>app.kubernetes.io/part-of=coolstore</code>. You can also drag and drop it to the <code>coolstore</code> app by pressing CTRL command.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/edit-labels.png" alt="Edit labels" width="600" height="600">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Well done! You are ready to move on to the next section.</p>
 </div>
@@ -521,8 +521,45 @@ In order to deploy our recent build we will use this downloaded jar.</p>
 <p><em>10 MINUTES EXERCISE</em></p>
 </div>
 <div class="paragraph">
-<p>During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs.
-For this type of deployment we can use YAML files already available at <a href="https://github.com/modernizing-java-applications-book/gateway-vertx.git" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx.git</a>.</p>
+<p>During this section you will deploy a scalable API Gateway that aggregates Catalog and Inventory APIs using Eclipse Vert.x</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><span class="image"><img src="_images/vertx-logo.png" alt="Vertx" width="400"></span></p>
+</div>
+<div class="paragraph">
+<p><a href="http://vertx.io/" target="_blank" rel="noopener">Eclipse Vert.x</a> is a toolkit for building reactive applications on the Java Virtual Machine (JVM). Vert.x does not
+impose a specific framework or packaging model and can be used within your existing applications and frameworks
+in order to add reactive functionality by just adding the Vert.x jar files to the application classpath.</p>
+</div>
+<div class="paragraph">
+<p><a href="http://vertx.io/" target="_blank" rel="noopener">Eclipse Vert.x</a> enables building reactive systems as defined by <a href="http://www.reactivemanifesto.org" target="_blank" rel="noopener">The Reactive Manifesto</a> and build
+services that are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Responsive</strong>: to handle requests in a reasonable time</p>
+</li>
+<li>
+<p><strong>Resilient</strong>: to stay responsive in the face of failures</p>
+</li>
+<li>
+<p><strong>Elastic</strong>: to stay responsive under various loads and be able to scale up and down</p>
+</li>
+<li>
+<p><strong>Message driven</strong>: components interact using asynchronous message-passing</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="http://vertx.io/" target="_blank" rel="noopener">Eclipse Vert.x</a> is designed to be event-driven and non-blocking. Events are delivered in an event loop that must never be blocked. Unlike traditional applications, Vert.x uses a very small number of threads responsible for dispatching the events to event handlers. If the event loop is blocked, the events won’t be delivered anymore and therefore the code needs to be mindful of this execution model.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>For this type of deployment we can use YAML files already available at <a href="https://github.com/modernizing-java-applications-book/gateway-vertx.git" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx.git</a>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -545,7 +582,7 @@ For this type of deployment we can use YAML files already available at <a href="
 <p>Locate the YAML files inside <a href="https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml</a> and use the <code>Copy</code> feature of GitHub to copy their content.</p>
 </li>
 <li>
-<p>Now paste the YAML content in your sandbox and hit <code>Create</code> button.</p>
+<p>Now paste using control-v or command-v the YAML content in your sandbox and hit <strong>Create</strong> button.</p>
 </li>
 </ul>
 </div>
@@ -564,6 +601,27 @@ For this type of deployment we can use YAML files already available at <a href="
 <div class="imageblock text-center">
 <div class="content">
 <img src="_images/successful-yaml-import.png" alt="Successful YAML import" width="600" height="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Go back to the <strong>Topology</strong>, go to the newly created <code>gateway-vertx</code> and click to the little arrow as shown below, this will open the Gateway URL:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/openshift-gateway-route.png" alt="Gateway Vertx Route" width="400" height="400">
+</div>
+</div>
+<div class="paragraph">
+<p>You can find the Route also by navigating to <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI inside the Web Terminal:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gateway-service-url.png" alt="Gateway Service URL" width="700">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route gateway-vertx</code></pre>
 </div>
 </div>
 </div>
@@ -645,26 +703,16 @@ the <strong><code>Builder Image</code></strong> strategy and OpenShift will auto
 <div class="ulist">
 <ul>
 <li>
-<p>Click on <strong>Deployment</strong> the expand the section and add an environment variable. The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service.</p>
+<p>Specify the <strong>Application</strong>, select <code>coolstore</code></p>
+</li>
+<li>
+<p>Click on <strong>Deployment</strong> the expand the section and add an environment variable. The environment variable name is <code>SECURE_COOLSTORE_GW_ENDPOINT</code> and the value is the URL associated with the Route to Gateway Service that you used in the previous section.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/git-import-dialog-5.png" alt="Builder Image Strategy" width="600">
-</div>
-</div>
-<div class="paragraph">
-<p>In a second tab, find the URL associated with the Route to Gateway Service. You can find it using <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI with the Web Terminal:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/gateway-service-url.png" alt="Gateway Service URL" width="700">
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get routes</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -675,13 +723,31 @@ the <strong><code>Builder Image</code></strong> strategy and OpenShift will auto
 </ul>
 </div>
 <div class="paragraph">
-<p>You can check the deployed application by accessing the Route of the last deployment.
-The final view of the deployed applications should be similar to this one:</p>
+<p>The final view of the deployed applications should be similar to this one:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-all-deployed.png" alt="Deployments Overview" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>You can also connect all microservices just from a visualization point of view as the following image:</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/final-overview.png" alt="Deployments Overview" width="700">
 </div>
+</div>
+<div class="paragraph">
+<p>You can check the deployed application by accessing the Route of the last deployment <code>web-nodejs</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://github.com/modernizing-java-applications-book/web-nodejs/blob/main/coolstore-web.png?raw=true" alt="Coolstore Shop" width="600">
+</div>
+</div>
+<div class="paragraph">
+<p>Congrats!! You have implemented an e-store using a microservices based architecture!</p>
 </div>
 </div>
 </div>
