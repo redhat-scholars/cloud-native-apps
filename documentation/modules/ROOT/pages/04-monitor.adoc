@@ -174,7 +174,7 @@ image::openshift-inventory-add-liveness-probe.png[Inventory Edit Liveness Probe,
 
 [IMPORTANT]
 ====
-When you added the Liveness probe, a Readiness probe was also added automatically. Since you haven't configured the Readiness probe, delete it before clicking the *Save* button or you might receive an error in the UI.
+When you added the Liveness probe, a Readiness probe was also added automatically. Since you haven't configured the Readiness probe, delete it using the minus (`-`) icon _before_ clicking the *Save* button.
 ====
 
 Finally `*click on the check icon and the 'Save' button*`. OpenShift automates deployments using
