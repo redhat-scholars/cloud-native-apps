@@ -4,10 +4,15 @@ include::_attributes.adoc[]
 [#rhodc]
 == Red Hat OpenShift development cluster
 
-You can provision your own development environment at https://developers.redhat.com/developer-sandbox/get-started[https://developers.redhat.com/developer-sandbox/get-started]:
+Firstly, provision your own free development environment using the https://developers.redhat.com/developer-sandbox/get-started[Developer Sandbox], which provides you with a private OpenShift environment in a shared, multi-tenant OpenShift cluster that is pre-configured with a set of developer tools, including the web-based https://developers.redhat.com/products/openshift-dev-spaces/overview[OpenShift Dev Spaces] IDE.
 
 [.mt-4.center]
 image::sandbox-landing-page.png[Sandbox Image,align="center"]
+
+Once you've signed up and launched your OpenShift Sandbox, you'll now be at the OpenShift Web Console.
+
+[.mt-4.center]
+image::sandbox-homepage.png[Sandbox Homepage,align="center"]
 
 [#wto]
 == Web Terminal Operator
@@ -15,12 +20,11 @@ image::sandbox-landing-page.png[Sandbox Image,align="center"]
 During some exercises we will use the Web Terminal Operator. 
 This operator is already installed in the Red Hat OpenShift Developer Sandbox and it enables you to launch an embedded command line terminal instance in the OpenShift web console.
 
-* To launch the web terminal, click the command line terminal icon 
+* To launch the web terminal, click the command line terminal icon on the upper right of the console. A web terminal instance is displayed in the Command line terminal pane. This instance is automatically logged in with your credentials.
 
-image::icon-bar-web-terminal.png[Web Terminal Icon,200]
-on the upper right of the console. A web terminal instance is displayed in the Command line terminal pane. This instance is automatically logged in with your credentials.
+image::icon-bar-web-terminal.png[Web Terminal Highlighted]
 
-* Select the project where the DevWorkspace Custom Resource must be created from the Project drop-down list. By default, the current project is selected.
+* Select the current default project.
 
 * Click **Start** to initialize the web terminal using the selected project.
 
