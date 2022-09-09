@@ -8,13 +8,16 @@
     <link rel="prev" href="03-deploy.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
-      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/cloud-native-apps">Cloud Native Apps</a>
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://redhat-scholars.github.io/cloud-native-apps">Cloud Native Apps</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -23,18 +26,35 @@
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
-        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
-        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link" href="#">More Tutorials</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
           </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
         </div>
       </div>
     </div>
@@ -46,7 +66,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="index.html"></a></h3>
+    <h3 class="title"><a href="index.html" class=" query-params-link">Cloud Native Apps</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -120,6 +140,22 @@
   </li>
 </ul>
   </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Cloud Native Apps</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Cloud Native Apps</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>
     </div>
   </aside>
@@ -405,7 +441,7 @@ to it:</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>When you added the Liveness probe, a Readiness probe was also added automatically. Since you haven&#8217;t configured the Readiness probe, delete it before clicking the <strong>Save</strong> button or you might receive an error in the UI.</p>
+<p>When you added the Liveness probe, a Readiness probe was also added automatically. Since you haven&#8217;t configured the Readiness probe, delete it using the minus (<code>-</code>) icon <em>before</em> clicking the <strong>Save</strong> button.</p>
 </div>
 </td>
 </tr>
@@ -443,67 +479,80 @@ Therefore, as soon as you define the probe, OpenShift automatically redeploys th
 <h2 id="understanding_readiness"><a class="anchor" href="#understanding_readiness"></a>Understanding Readiness Probes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>What happens if you DON&#8217;T setup Readiness checks?</strong></p>
+<p>What happens if you DON&#8217;T setup Readiness checks? Let&#8217;s simulate traffic to the <em>Catalog Service</em> to find out.</p>
 </div>
-<div class="paragraph">
-<p>Let&#8217;s imagine you have traffic to the <em>Catalog Service</em></p>
-</div>
-<div class="paragraph">
-<p><code><strong>Execute the following commands in the '&gt;_' terminal window</strong></code></p>
-</div>
-<div class="listingblock copypaste">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Execute the following command in the <code>&gt;_</code> terminal window:</p>
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">for i in {1..60}
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">for i in {1..60}
 do
-    if [ $(curl -s -w "200" -o /dev/null http://catalog-spring-boot:8080/actuator/health) == "200" ]
+    if curl -s -o /dev/null http://catalog-spring-boot:8080/actuator/health;
     then
-        MSG="\033[0;32mThe request to Inventory Service has succeeded\033[0m"
+        MSG="\033[0;32mThe request to Catalog Service has succeeded\033[0m"
     else
-        MSG="\033[0;31mERROR - The request to Inventory Service has failed\033[0m"
+        MSG="\033[0;31mERROR - The request to Catalog Service has failed\033[0m"
     fi
 
     echo -e $MSG
-    sleep 2s
+    sleep 1s
 done</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>You should have the following output:</p>
-</div>
+</li>
+<li>
+<p>You should see output similar to this:</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/che-catalog-traffic-ok.png" alt="Catalog Traffic OK" width="500">
 </div>
 </div>
-<div class="paragraph">
-<p>Now let&#8217;s scale out your <em>Catalog Service</em> to 2 instances.</p>
-</div>
-<div class="paragraph">
-<p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) catalog-spring-boot' &#8594; 'Details' then click once on the up arrows
-on the right side of the pod blue circle</strong></code>.</p>
-</div>
+</li>
+<li>
+<p>Scale out your <em>Catalog Service</em> to 2 instances:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the <strong>Developer</strong> perspective in the OpenShift Web Console.</p>
+</li>
+<li>
+<p>Click on Topology in the side-menu.</p>
+</li>
+<li>
+<p>Select the <em>catalog-spring-boot</em> by clicking it&#8217;s node in the Topology view.</p>
+</li>
+<li>
+<p>Switch to the <strong>Details</strong> tab, then click once on the up arrow on the right side of the blue Pod circle.</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/openshift-scale-out-catalog.png" alt="OpenShift Scale Out Catalog" width="700">
 </div>
 </div>
-<div class="paragraph">
-<p>You should see the 2 instances (pods) running.
-Now, <code><strong>switch back to your '&gt;_' terminal window</strong></code> and check the output of the <code>curl</code> commands:</p>
+</li>
+</ul>
 </div>
+</li>
+<li>
+<p>You should see the 2 instances (Pods) running.</p>
+</li>
+<li>
+<p>Now, observe the <code>&gt;_</code> terminal window and the output of the <code>curl</code> command loop:</p>
 <div class="imageblock">
 <div class="content">
-<img src="_images/che-catalog-traffic-ko.png" alt="Catalog Traffic KO" width="500">
+<img src="_images/che-catalog-traffic-ko.png" alt="Catalog Traffic KO">
 </div>
+</div>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p><strong>Why do some requests failed? Because as soon as the container is created, the traffic is sent to this new instance even if the application is not ready.</strong>
-(The <em>Catalog Service</em> takes more than 20 seconds to start up).</p>
+<p>Notice how some of the requests failed? This is because traffic is sent to the new Pod as soon it is created, even if the application is not ready to accept traffic. Since the <em>Catalog Service</em> takes up to 20 seconds to start up, traffic that reaches the new Pod during that start up period will fail to receive a response.</p>
 </div>
 <div class="paragraph">
-<p>In order to prevent this behaviour, a <strong>Readiness check</strong> is needed. It determines if the container in which it is scheduled is ready to service requests.
-If the readiness probe fails a container, the endpoints controller ensures the container has its IP address removed from the endpoints of all services.
+<p>A <strong>Readiness Probe</strong> is required to prevent this from happening. The status returned by a readiness probe determines if the container which it targets can service incoming requests.
+If the readiness probe fails for a given Pod, the endpoints controller ensures the container has its IP address removed from the endpoints of all services.
 A readiness probe can be used to signal to the endpoints controller that even though a container is running, it should not receive any traffic from a proxy.</p>
 </div>
 </div>
@@ -512,7 +561,7 @@ A readiness probe can be used to signal to the endpoints controller that even th
 <h2 id="configuring_readiness"><a class="anchor" href="#configuring_readiness"></a>Configuring Readiness Probes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>First, scale down your <em>Catalog Service</em> to 1 instance. In the {OPENSHIFT_CONSOLE_URL}[OpenShift Web Console^, role='params-link'], from the <strong>Developer view</strong>,
+<p>First, scale down your <em>Catalog Service</em> to 1 instance. In the OpenShift Web Console, from the <strong>Developer view</strong>,
 <code><strong>click on 'Topology' &#8594; '(D) catalog-coolstore' &#8594; 'Details' then click once on the down arrows
 on the right side of the pod blue circle</strong></code>.</p>
 </div>
@@ -520,26 +569,36 @@ on the right side of the pod blue circle</strong></code>.</p>
 <p><a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank" rel="noopener">Spring Boot Actuator</a> is a
 sub-project of Spring Boot which adds health and management HTTP endpoints to the application. Enabling Spring Boot
 Actuator is done via adding <strong>org.springframework.boot:spring-boot-starter-actuator</strong> dependency to the Maven project
-dependencies which is already done for the <strong>Catalog Service</strong>.</p>
+dependencies which is already done for the <em>Catalog Service</em>.</p>
 </div>
 <div class="paragraph">
-<p>Verify that the health endpoint works for the <strong>Catalog Service</strong> using <code><strong>curl</strong></code>.</p>
+<p>Verify that the health endpoint works for the <em>Catalog Service</em>:</p>
 </div>
-<div class="paragraph">
-<p>In your browser, access the path <code>/actuator/health</code> under the URL associated to the Route of Catalog microservice:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find the <em>Catalog Service</em> node in the Topology View in the OpenShift Web Console.</p>
+</li>
+<li>
+<p>Click on the <strong>Open URL</strong> icon associated with the <em>Catalog Service</em>. This will open a new tab that displays a default homepage for the <em>Catalog Service</em>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/monitoring-open-catalog-url.png" alt="Open URL icon for the Catalog Service">
 </div>
+</div>
+</li>
+<li>
+<p>Append <code>/actuator/health</code> to the <em>Catalog Service</em> URL in your web-browser&#8217;s address bar. This should return a JSON response as shown:</p>
 <div class="imageblock">
 <div class="content">
 <img src="_images/actuator-endpoint.png" alt="Actuator endpoint" width="700">
 </div>
 </div>
+</li>
+</ol>
+</div>
 <div class="paragraph">
-<p>You should have the following output:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{"status":"UP"}</code></pre>
-</div>
+<p>This endpoint can be used by a <strong>Readiness Probe</strong> to determine that the service is ready to accept incoming HTTP requests.</p>
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
@@ -836,7 +895,7 @@ The graphs can be found under the Metrics heading, or Details in earlier version
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="03-deploy.html">3. Deploy Microservices </a></span>
+  <span class="prev"><a href="03-deploy.html" class="query-params-link">3. Deploy Microservices </a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

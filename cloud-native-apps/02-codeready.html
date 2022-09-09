@@ -3,19 +3,22 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Get your Developer Workspace :: Cloud Native Apps</title>
+    <title>Access your Developer Workspace :: Cloud Native Apps</title>
     <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/02-codeready.html">
     <link rel="prev" href="01-setup.html">
     <link rel="next" href="03-deploy.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="article">
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
-      <a class="navbar-item" style="font-size: 24px; color: white" href="https://redhat-scholars.github.io/cloud-native-apps">Cloud Native Apps</a>
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://redhat-scholars.github.io/cloud-native-apps">Cloud Native Apps</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -24,18 +27,35 @@
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
-        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
-        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <a class="navbar-item" href="#">Books</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">CheatSheets</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">CheatSheet A</a>
+            <a class="navbar-item" href="#">CheatSheet B</a>
+            <a class="navbar-item" href="#">CheatSheet C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Upcoming Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Event A</a>
+            <a class="navbar-item" href="#">Event B</a>
+            <a class="navbar-item" href="#">Event C</a>
+          </div>
+        </div>
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link" href="#">More Tutorials</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
-            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+            <a class="navbar-item" href="#">Tutorial A</a>
+            <a class="navbar-item" href="#">Tutorial B</a>
+            <a class="navbar-item" href="#">Tutorial C</a>
           </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
         </div>
       </div>
     </div>
@@ -47,7 +67,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="index.html"></a></h3>
+    <h3 class="title"><a href="index.html" class=" query-params-link">Cloud Native Apps</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -122,6 +142,22 @@
 </ul>
   </nav>
 </div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Cloud Native Apps</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Cloud Native Apps</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
     </div>
   </aside>
 </div>
@@ -139,11 +175,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Get your Developer Workspace</h1>
+<h1 class="page">Access your Developer Workspace</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>10 MINUTES EXERCISE</em></p>
+<p><em>10 MINUTE EXERCISE</em></p>
 </div>
 <div class="paragraph">
 <p>In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform
@@ -204,11 +240,10 @@ and getting familiar with the OpenShift CLI and OpenShift Web Console.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="get_your_developer_workspace"><a class="anchor" href="#get_your_developer_workspace"></a>Getting your Developer Workspace with a single click</h2>
+<h2 id="get_your_developer_workspace"><a class="anchor" href="#get_your_developer_workspace"></a>Accessing your Developer Workspace with a single click</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a>  will provide you an out-of-box
-<strong>Developer Workspace</strong> with all the tools and the dependencies we need to do the job. <strong>And with only one single click!</strong></p>
+<p><a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> provides a <strong>Developer Workspace</strong> out of the box, with all the tools and the dependencies we need to complete the lab. <strong>And with only one single click!</strong></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -257,16 +292,16 @@ to this file.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>This will provision <code>OpenShift Dev Spaces</code> in a new tab.</p>
+<p>This will provision <strong>OpenShift Dev Spaces</strong> in a new tab.</p>
 </div>
 <div class="paragraph">
-<p>Once completed, you will have a fully functional Browser-based IDE with the source code already imported.</p>
+<p>Once completed, you will have a fully functional browser-based IDE.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
-  <span class="next"><a href="03-deploy.html">3. Deploy Microservices </a></span>
+  <span class="prev"><a href="01-setup.html" class="query-params-link">1. Setup</a></span>
+  <span class="next"><a href="03-deploy.html" class="query-params-link">3. Deploy Microservices </a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
