@@ -2,7 +2,7 @@
 ** xref:01-setup.adoc#rhodc[Red Hat OpenShift development cluster]
 ** xref:01-setup.adoc#wto[Web Terminal Operator]
 
-* xref:02-codeready.adoc[2. Access your CodeReady Workspace]
+* xref:02-codeready.adoc[2. Access your OpenShift Dev Spaces]
 * xref:03-deploy.adoc[3. Deploy Microservices ]
 ** xref:03-deploy.adoc#helm[Deploy a Quarkus MicroService with Helm]
 ** xref:03-deploy.adoc#odo[Deploy a Spring Boot Microservice]
