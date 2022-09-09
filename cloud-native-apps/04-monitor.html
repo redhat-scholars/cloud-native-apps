@@ -262,7 +262,7 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Resources' &#8594; 'P inventory-quarkus-x-xxxxx'</strong></code></p>
+<code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Resources' &#8594; '(P) inventory-quarkus-x-xxxxx'</strong></code></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -286,7 +286,7 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 <p>So <strong>you just suspend the <em>Inventory Service</em> java process</strong> to simulate a stuck situation.</p>
 </div>
 <div class="paragraph">
-<p>In the OpenShift Web Console, <code>*click on the 'Events' and 'Logs' tabs *</code> and notice that
+<p>In the OpenShift Web Console, <code><strong>click on the 'Events' and 'Logs' tabs</strong></code> and notice that
 <strong>everything seems to be ok</strong>.</p>
 </div>
 <div class="imageblock">
@@ -359,16 +359,24 @@ to it:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>In the OpenShift Web Console], from the <strong>Developer view</strong>,
+<p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
 <code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Actions &#8594;'Edit Health Checks'</strong></code>.</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="openshift-inventory-add-health-check.png" alt="Inventory Edit Health Check" width="700">
+<img src="_images/openshift-inventory-edit-health-check.png" alt="Inventory Edit Health Check" width="500">
 </div>
 </div>
 <div class="paragraph">
 <p>Then <code><strong>click on 'Liveness Probe Added'</strong></code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-inventory-liveness-added.png" alt="Change Liveness Probe" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>This will open the editing dialog as seen below:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -433,6 +441,14 @@ to it:</p>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><code><strong>Click on the check icon</strong></code> in the lower right corner of the liveness edit dialog to apply the changes for the liveness probe.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-inventory-check-apply-liveness.png" alt="Apply Liveness Probe" width="200">
+</div>
+</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -443,12 +459,17 @@ to it:</p>
 <div class="paragraph">
 <p>When you added the Liveness probe, a Readiness probe was also added automatically. Since you haven&#8217;t configured the Readiness probe, delete it using the minus (<code>-</code>) icon <em>before</em> clicking the <strong>Save</strong> button.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-inventory-remove-readiness-probe.png" alt="Remove Readiness Probe" width="600">
+</div>
+</div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Finally <code><strong>click on the check icon and the 'Save' button</strong></code>. OpenShift automates deployments using
+<p>Finally <code><strong>click the 'Save' button</strong></code>. OpenShift automates deployments using
 <a href="https://docs.openshift.com/container-platform/4.10/welcome/index.html" target="_blank" rel="noopener">deployment triggers</a>
 that react to changes to the container image or configuration.
 Therefore, as soon as you define the probe, OpenShift automatically redeploys the pod using the new configuration including the liveness probe.</p>
@@ -562,7 +583,7 @@ A readiness probe can be used to signal to the endpoints controller that even th
 <div class="sectionbody">
 <div class="paragraph">
 <p>First, scale down your <em>Catalog Service</em> to 1 instance. In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) catalog-coolstore' &#8594; 'Details' then click once on the down arrows
+<code><strong>click on 'Topology' &#8594; '(D) catalog-spring-boot' &#8594; 'Details' then click once on the down arrows
 on the right side of the pod blue circle</strong></code>.</p>
 </div>
 <div class="paragraph">
@@ -602,7 +623,7 @@ dependencies which is already done for the <em>Catalog Service</em>.</p>
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) catalog-coolstore' &#8594; 'Add Health Checks'</strong></code>.</p>
+<code><strong>click on 'Topology' &#8594; '(D) catalog-spring-boot' &#8594; 'Add Health Checks'</strong></code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -612,9 +633,9 @@ dependencies which is already done for the <em>Catalog Service</em>.</p>
 <div class="paragraph">
 <p>Then <code><strong>click on 'Add Readiness Probe'</strong></code></p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="openshift-catalog-add-readiness-probe.png" alt="Catalog Add Readiness Probe" width="500">
+<img src="_images/openshift-catalog-add-readiness-probe.png" alt="Catalog Add Readiness Probe" width="600">
 </div>
 </div>
 <div class="paragraph">
@@ -717,7 +738,7 @@ the fast response to stuck states.</p>
 <p>Now you understand and know how to configure Readiness, Liveness and Startup probes, let&#8217;s confirm your expertise!</p>
 </div>
 <div class="paragraph">
-<p><code><strong>Configure the remaining Probes to for Inventory and Catalog Probes</strong></code> using the following information:</p>
+<p><code><strong>Configure the remaining Probes for the Inventory and Catalog Services</strong></code> using the following information:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
