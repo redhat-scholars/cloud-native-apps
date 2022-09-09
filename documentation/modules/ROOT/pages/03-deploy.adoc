@@ -4,7 +4,7 @@ include::_attributes.adoc[]
 [#helm]
 == Deploy a Quarkus MicroService with Helm
 
-_20 MINUTES EXERCISE_
+_20 MINUTE EXERCISE_
 
 In this section you will learn about deploying microservices using Helm Charts.
 
