@@ -90,7 +90,7 @@ image::dev-spaces-quick-add-create-workspace.png[Quick Add to Create Workspace]
 
 Then click **Create & Open** button to import the project.
 
-NOTE: You might be asked to login through link:https://github.com[GitHub.com^] with your user in order to access OpenShift Dev Spaces. This is due the GitHub OAuth plugin available in OpenShift Dev Spaces that let start using GitHub features such as Pull Requests, Issues etc from the environment. 
+NOTE: You might be asked to login through link:https://github.com[GitHub.com^] with your user in order to access OpenShift Dev Spaces. This is due the GitHub OAuth plugin available in OpenShift Dev Spaces that let start using GitHub features such as Pull Requests, Issues etc from the environment. If you don't have a GitHub account, you can just skip it.
 
 [.mt-4.center]
 image::dev-spaces-import-from-git.png[Import Workspace from Git Repository]
