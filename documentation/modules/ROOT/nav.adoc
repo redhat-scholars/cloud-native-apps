@@ -19,3 +19,7 @@
 ** xref:04-monitor.adoc#understanding_startup[ Understanding Startup Probes]
 ** xref:04-monitor.adoc#monitoring_all_applications[ Monitoring All Application Healths]
 ** xref:04-monitor.adoc#monitoring_application_metrics[ Monitoring Applications Metrics]
+
+* xref:05-links.adoc[5. Next steps]
+** xref:05-links.adoc#modernizingjavabook[Get the Book]
+** xref:05-links.adoc#rhd[Join the Red Hat Developer program!]

@@ -4,7 +4,7 @@ include::_attributes.adoc[]
 [#helm]
 == Deploy a Quarkus MicroService with Helm
 
-_20 MINUTE EXERCISE_
+_15 MINUTE EXERCISE_
 
 In this section you will learn about deploying microservices using Helm Charts.
 
@@ -44,6 +44,7 @@ image::access-helm.png[Access Helm,600,600,align="center"]
 * Type `Quarkus` in the input field associated with search function and click on the result found.
 
 image::helm-quarkus.png[Quarkus, 500]
+
 * Click the **Install Helm Chart** button and follow the next steps to adjust the chart values.
 * Change the release name to `inventory-quarkus`
 
@@ -95,14 +96,92 @@ NOTE: You might be asked to login through link:https://github.com[GitHub.com^] w
 [.mt-4.center]
 image::dev-spaces-import-from-git.png[Import Workspace from Git Repository]
 
-Locate `/projects/catalog-spring-boot/src/main/resources/import.sql` in the newly imported project:
+The import will generate a developer workspace containing the language support for Spring Boot and pre-built run configurations for building the app.
+
+The format to define these workspaces is the link:https://devfile.io/docs/2.1.0/what-is-a-devfile[Devfile^], a standard format to record the instructions for configuring and running your build environment as a YAML-formatted text file.
+
+In the while your workspace is setup, you can review the Devfile available on the Catalog service repository link:https://github.com/modernizing-java-applications-book/catalog-spring-boot/blob/main/devfile.yaml[here^].
+
+[source,yaml]
+----
+schemaVersion: 2.1.0
+metadata:
+  name: catalog-spring-boot
+components:
+  - attributes:
+      che-theia.eclipse.org/vscode-preferences:
+        java.server.launchMode: Standard
+    container:
+      endpoints:
+        - exposure: none
+          name: debug
+          protocol: tcp
+          targetPort: 5005
+        - exposure: public
+          name: 8080-tcp
+          protocol: http
+          targetPort: 8080
+      image: 'quay.io/devfile/universal-developer-image:ubi8-0e189d9'
+      memoryLimit: 2Gi
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+    name: tools
+  - name: m2
+    volume:
+      size: 1G
+commands:
+  - exec:
+      commandLine: mvn clean install
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        isDefault: true
+        kind: build
+    id: maven-build
+  - exec:
+      commandLine: java -jar target/*.jar
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        isDefault: true
+        kind: run
+    id: run-with-hsqldb
+  - exec:
+      commandLine: 'java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 target/*.jar'
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        kind: run
+    id: run-debug
+----
+
+The devfile can list IDE extensions requirement in-file or in another file named `.vscode/extensions.json` as the following:
+
+[source,json]
+----
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
+    "recommendations": [
+      "redhat.java",
+      "vscjava.vscode-java-debug",
+      "vscjava.vscode-java-test",
+      "redhat.vscode-yaml"
+    ]
+}
+----
+
+TIP: OpenShift Dev Spaces plugins are compatible with VSCode, see a list of available plugins from Red Hat link:https://marketplace.visualstudio.com/publishers/redhat[here].  
+
+After your workspace is up and running, locate the `/projects/catalog-spring-boot/src/main/resources/import.sql` file in the newly imported project:
 
 [.mt-4.center]
 image::che-project-explorer-locate-file.png[Locate File in Project Explorer]
 
 Add the following two lines of SQL into `import.sql`:
 
-[source,sql,subs="+macros,+attributes"]
+[source,sql,role=copypaste,subs="+macros,+attributes"]
 ----
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);
@@ -270,7 +349,123 @@ For this type of deployment we can use YAML files already available at https://g
 
 image::from-yaml.png[From YAML, 600,600,align="center"]
 
-* Locate the YAML files inside https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml and use the `Copy` feature of GitHub to copy their content.
+* Copy the following YAML containing the Kubernetes manifests describing the API Gateway for the Coolstore. You find it also in the GitHub repository link:https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml[here^].
+
+[source,yaml,role=copypaste]
+----
+---
+kind: Deployment <1>
+apiVersion: apps/v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/name: vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-vertx
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gateway-vertx
+    spec:
+      containers:
+        - name: gateway-vertx
+          image: quay.io/modernizingjavaappsbook/gateway-vertx:latest <2>
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          env: <3>
+            - name: COMPONENT_CATALOG_HOST
+              value: catalog-spring-boot
+            - name: COMPONENT_CATALOG_PORT
+              value: '8080'
+            - name: COMPONENT_INVENTORY_HOST
+              value: inventory-quarkus
+            - name: COMPONENT_INVENTORY_PORT
+              value: '8080'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+kind: Service <4>
+apiVersion: v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: 8443-tcp
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+    - name: 8778-tcp
+      protocol: TCP
+      port: 8778
+      targetPort: 8778
+  selector:
+    app: gateway-vertx
+  type: ClusterIP
+  sessionAffinity: None
+---
+kind: Route <5>
+apiVersion: route.openshift.io/v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  to:
+    kind: Service
+    name: gateway-vertx
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+----
+<1> A Kubernetes Deployment for this app. 
+<2> The container image for the Gateway service available on Quay.io
+<3> Environments variable to instruct the Gateway on what to connect, in this case the Inventory and the Catalog Kubernetes Services
+<4> A Kubernetes Service for the Gateway
+<5> A secure OpenShift Route for accessing the Gateway via an HTTPS URL
+
 * Now paste using control-v or command-v the YAML content in your sandbox and hit **Create** button.
 
 image::import-yaml.png[Import YAML, 600,600,align="center"]
@@ -283,16 +478,18 @@ Go back to the **Topology**, go to the newly created `gateway-vertx` and click t
 
 image::openshift-gateway-route.png[Gateway Vertx Route, 400,400,align="center"]
 
-You can find the Route also by navigating to *OpenShift Web Console -> Project -> Routes* or the OpenShift CLI inside the Web Terminal:
+You can find the Route also by navigating to *OpenShift Web Console -> Project -> Routes* :
 
 image::gateway-service-url.png[Gateway Service URL, 700]
 
-[source,bash,subs="+macros,+attributes"]
+Or the OpenShift CLI inside the Web Terminal:
+
+[source,bash,role="copypaste","subs="+macros,+attributes"]
 ----
 oc get route gateway-vertx
 ----
 
-This will open a new browser tab and you should see something similar to:
+By accessing the URL from the just created OpenShift Route, you should see something similar to the following:
 
 image::vertx-testit.png[Test it,400,400,align="center"]
 

@@ -1,0 +1,24 @@
+= Next steps
+include::_attributes.adoc[]
+
+[#modernizingjavabook]
+== Get the Book
+
+Explore other examples from the link:https://www.oreilly.com/library/view/modernizing-enterprise-java/9781098102135/[Modernizing Enterprise Java^] book, download the e-book it for free from link:https://developers.redhat.com/e-books/modernizing-enterprise-java[Red Hat Developer portal] to continue your cloud native journey!
+
+[.mt-4.center]
+image::https://developers.redhat.com/sites/default/files/styles/cheat_sheet_feature/public/Modernizing%20Enterprise%20Java%20e-book%20FINAL%20cover_0.png[Modernizing Enterprise Java,align="center"]
+
+[#rhd]
+== Join the Red Hat Developer Program!
+
+[.mt-4.center]
+image::https://developers.redhat.com/sites/default/files/styles/large/public/homepage-topics.png[RHD,align="center"]
+
+Join link:https://developers.redhat.com[Red Hat Developer^] for the tools and training to develop applications for the cloud. Members get access to developer editions of Red Hat’s software, documentation, and premium books from our experts on link:https://developers.redhat.com/topics/microservices/[microservices], link:https://developers.redhat.com/topics/serverless-architecture/[serverless], link:https://developers.redhat.com/topics/kubernetes/[Kubernetes], and link:https://developers.redhat.com/topics/linux/[Linux]. 
+
+Today’s containerized applications are changing development work requiring developers to adopt new architectures and DevOps processes. Red Hat Developer helps you build these skills and provides you with the tools you need to use them in your next application and beyond. **Build here. Go anywhere. **
+
+
+
+
