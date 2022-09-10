@@ -1,16 +1,11 @@
-:markup-in-source: verbatim,attributes,quotes
-:CHE_URL: http://codeready-workspaces.%APPS_HOSTNAME_SUFFIX%
-:USER_ID: %USER_ID%
-:OPENSHIFT_PASSWORD: %OPENSHIFT_PASSWORD%
-:OPENSHIFT_CONSOLE_URL: https://console-openshift-console.%APPS_HOSTNAME_SUFFIX%/topology/ns/my-project{USER_ID}?view=graph
-
-= Access your Developer Workspace
-:navtitle: Get your Developer Workspace
+= Access your Development Environment
+include::_attributes.adoc[]
+:navtitle: Get your Development Environment
 
 _10 MINUTE EXERCISE_
 
-In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform
-and getting familiar with the OpenShift CLI and OpenShift Web Console.
+In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform and getting familiar with the OpenShift CLI and OpenShift Web Console.
+
 
 [#what_is_rhos_dev_spaces]
 == What is Red Hat OpenShift Dev Spaces?
