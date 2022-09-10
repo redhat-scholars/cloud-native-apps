@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Setup :: Cloud Native Apps</title>
-    <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/01-setup.html">
-    <link rel="prev" href="index.html">
-    <link rel="next" href="02-devspaces.html">
+    <title>Access your Development Environment :: Cloud Native Apps</title>
+    <link rel="canonical" href="https://redhat-scholars.github.io/cloud-native-apps/cloud-native-apps/02-devspaces.html">
+    <link rel="prev" href="01-setup.html">
+    <link rel="next" href="03-deploy.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -51,24 +51,24 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="01-setup.html">1. Setup</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#rhodc">Red Hat OpenShift development cluster</a>
+    <a class="nav-link" href="01-setup.html#rhodc">Red Hat OpenShift development cluster</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="#wto">Web Terminal Operator</a>
+    <a class="nav-link" href="01-setup.html#wto">Web Terminal Operator</a>
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="02-devspaces.html">2. Access your Development Environment</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="02-devspaces.html#what_is_rhos_dev_spaces">OpenShift Dev Spaces</a>
+    <a class="nav-link" href="#what_is_rhos_dev_spaces">OpenShift Dev Spaces</a>
   </li>
 </ul>
   </li>
@@ -150,59 +150,69 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Cloud Native Apps</a></li>
-    <li><a href="01-setup.html">1. Setup</a></li>
+    <li><a href="02-devspaces.html">2. Access your Development Environment</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/01-setup.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/redhat-scholars/cloud-native-apps/edit/master/documentation/modules/ROOT/pages/02-devspaces.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Setup</h1>
-<div class="sect1">
-<h2 id="rhodc"><a class="anchor" href="#rhodc"></a>Red Hat OpenShift development cluster</h2>
+<h1 class="page">Access your Development Environment</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Firstly, provision your own free development environment using the <a href="https://developers.redhat.com/developer-sandbox/get-started">Developer Sandbox</a>, which provides you with a private OpenShift environment in a shared, multi-tenant OpenShift cluster that is pre-configured with a set of developer tools, including the web-based <a href="https://developers.redhat.com/products/openshift-dev-spaces/overview">OpenShift Dev Spaces</a> IDE.</p>
-</div>
-<div class="imageblock text-center mt-4 center">
-<div class="content">
-<img src="_images/sandbox-landing-page.png" alt="Sandbox Image">
-</div>
+<p><em>10 MINUTE EXERCISE</em></p>
 </div>
 <div class="paragraph">
-<p>Once you&#8217;ve signed up and launched your OpenShift Sandbox, you&#8217;ll now be at the OpenShift Web Console.</p>
-</div>
-<div class="imageblock text-center mt-4 center">
-<div class="content">
-<img src="_images/sandbox-homepage.png" alt="Sandbox Homepage">
+<p>In this lab you will learn about providing your Developer Workspace with a Kubernetes-native development platform and getting familiar with the OpenShift CLI and OpenShift Web Console.</p>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="what_is_rhos_dev_spaces"><a class="anchor" href="#what_is_rhos_dev_spaces"></a>What is Red Hat OpenShift Dev Spaces?</h2>
+<div class="sectionbody">
 <div class="sidebarblock">
 <div class="content">
-<div class="title">Quotas and Limits</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/dev-spaces-graphic.png" alt="OpenShift Dev Spaces" width="400">
+</div>
+</div>
 <div class="paragraph">
-<p>Your private OpenShift environment on Developer Sandbox includes quotas and limits of:</p>
+<p><a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> is service to start remote, container-based, development environments on Red Hat OpenShift.</p>
+</div>
+<div class="paragraph">
+<p>As an open-source project, the core goals of <a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a>  are to:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>7 GB RAM</p>
+<p><strong>Accelerate project and developer onboarding:</strong> As a zero-install development environment that runs in your browser, <a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> makes it easy for anyone to join your team and contribute to a project.</p>
 </li>
 <li>
-<p>15GB storage</p>
+<p><strong>Remove inconsistency between developer environments:</strong> No more: “But it works on my machine.” Your code works exactly the same way in everyone’s environment.</p>
+</li>
+<li>
+<p><strong>Provide built-in security and enterprise readiness:</strong> As <a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a>  becomes a viable replacement for VDI solutions, it must be secure and it must support enterprise requirements, such as role-based access control and the ability to remove all source code from developer machines.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>which is enough to run this workshop.</p>
-</div>
-<div class="paragraph">
-<p>There is one fixed project (namespace):</p>
+<p>To achieve those core goals, <a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a>  provides:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>&lt;your_username&gt;-dev</code></p>
+<p><strong>Workspaces:</strong> Container-based developer workspaces providing all the tools and dependencies needed to code, build, test, run, and debug applications.</p>
+</li>
+<li>
+<p><strong>Browser-based IDEs:</strong> Bundled browser-based IDEs with language tooling, debuggers, terminal, source control (SCM) integration, and much more. Bundled IDEs are Eclipse Theia, Visual Studio Code and IntelliJ.</p>
+</li>
+<li>
+<p><strong>Extensible platform:</strong> Bring your own IDE. Define, configure, and extend the tools that you need for your application by using custom container images and installing IDE extensions.</p>
+</li>
+<li>
+<p><strong>Enterprise Integration:</strong> Multi-user capabilities (including Keycloak for authentication and integration with LDAP or AD) and restricted network support (including enteprise SSL certificate bundles and internal proxies).</p>
 </li>
 </ul>
 </div>
@@ -211,70 +221,59 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="wto"><a class="anchor" href="#wto"></a>Web Terminal Operator</h2>
+<h2 id="get_your_developer_workspace"><a class="anchor" href="#get_your_developer_workspace"></a>Accessing your Developer Workspace with a single click</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>During some exercises we will use the Web Terminal Operator.
-This operator is already installed in the Red Hat OpenShift Developer Sandbox and it enables you to launch an embedded command line terminal instance in the OpenShift web console.</p>
+<p><a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> provides a <strong>Developer Workspace</strong> out of the box, with all the tools and the dependencies we need to complete the lab. <strong>And with only one single click!</strong></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Devfile</div>
+<div class="paragraph">
+<p><a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> uses <a href="https://devfile.io/docs/2.1.0/what-is-a-devfile" target="_blank" rel="noopener">Devfiles</a> to automate the provisioning of a specific workspace by defining:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>To launch the web terminal, click the command line terminal icon on the upper right of the console. A web terminal instance is displayed in the Command line terminal pane. This instance is automatically logged in with your credentials.</p>
+<p>application runtime definition</p>
+</li>
+<li>
+<p>preconfigured commands</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Providing a devfile.yaml file inside a Git source repository signals to <a href="https://access.redhat.com/products/red-hat-openshift-dev-spaces" target="_blank" rel="noopener">OpenShift Dev Spaces</a> to configure the project and runtime according
+to this file.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Go to your Red Hat Developer Sandbox and click on the 'Red Hat OpenShift Dev Spaces' button:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/icon-bar-web-terminal.png" alt="Web Terminal Highlighted">
+<img src="_images/dev-spaces-button.png" alt="Developer Workspace - Button" width="300">
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Select the current default project.</p>
-</li>
-<li>
-<p>Click <strong>Start</strong> to initialize the web terminal using the selected project.</p>
-</li>
-<li>
-<p>Type <code>help</code> to list the available command line tools.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock mt-4 center">
-<div class="content">
-<img src="_images/web-terminal-operator.png" alt="Sandbox Image Web Terminal">
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="downloadtutorial"><a class="anchor" href="#downloadtutorial"></a>Get tutorial sources</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Before we start setting up the environment, let’s clone the tutorial sources and set the <code>TUTORIAL_HOME</code> environment variable to point to the root directory of the tutorial:</p>
+<p>This will provision <strong>OpenShift Dev Spaces</strong> in a new tab.</p>
 </div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="https://github.com/redhat-scholars/cloud-native-apps.git" class="bare">https://github.com/redhat-scholars/cloud-native-apps.git</a> my_folder</code></pre>
-</div>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export TUTORIAL_HOME="$(pwd)/my_folder"</code></pre>
-</div>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd $TUTORIAL_HOME</code></pre>
-</div>
+<div class="paragraph">
+<p>Once completed, you will have a fully functional browser-based IDE.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html">Cloud Native Apps</a></span>
-  <span class="next"><a href="02-devspaces.html">2. Access your Development Environment</a></span>
+  <span class="prev"><a href="01-setup.html">1. Setup</a></span>
+  <span class="next"><a href="03-deploy.html">3. Deploy Microservices </a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
