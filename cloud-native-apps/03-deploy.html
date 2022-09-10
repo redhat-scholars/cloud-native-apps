@@ -137,6 +137,18 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="05-links.html">5. Next steps</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-links.html#modernizingjavabook">Get the Book</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="05-links.html#rhd">Join the Red Hat Developer program!</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </li>
 </ul>
@@ -180,7 +192,7 @@
 <h2 id="helm"><a class="anchor" href="#helm"></a>Deploy a Quarkus MicroService with Helm</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>20 MINUTE EXERCISE</em></p>
+<p><em>15 MINUTE EXERCISE</em></p>
 </div>
 <div class="paragraph">
 <p>In this section you will learn about deploying microservices using Helm Charts.</p>
@@ -379,7 +391,99 @@ You might be asked to login through <a href="https://github.com" target="_blank"
 </div>
 </div>
 <div class="paragraph">
-<p>Locate <code>/projects/catalog-spring-boot/src/main/resources/import.sql</code> in the newly imported project:</p>
+<p>The import will generate a developer workspace containing the language support for Spring Boot and pre-built run configurations for building the app.</p>
+</div>
+<div class="paragraph">
+<p>The format to define these workspaces is the <a href="https://devfile.io/docs/2.1.0/what-is-a-devfile" target="_blank" rel="noopener">Devfile</a>, a standard format to record the instructions for configuring and running your build environment as a YAML-formatted text file.</p>
+</div>
+<div class="paragraph">
+<p>In the while your workspace is setup, you can review the Devfile available on the Catalog service repository <a href="https://github.com/modernizing-java-applications-book/catalog-spring-boot/blob/main/devfile.yaml" target="_blank" rel="noopener">here</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">schemaVersion: 2.1.0
+metadata:
+  name: catalog-spring-boot
+components:
+  - attributes:
+      che-theia.eclipse.org/vscode-preferences:
+        java.server.launchMode: Standard
+    container:
+      endpoints:
+        - exposure: none
+          name: debug
+          protocol: tcp
+          targetPort: 5005
+        - exposure: public
+          name: 8080-tcp
+          protocol: http
+          targetPort: 8080
+      image: 'quay.io/devfile/universal-developer-image:ubi8-0e189d9'
+      memoryLimit: 2Gi
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+    name: tools
+  - name: m2
+    volume:
+      size: 1G
+commands:
+  - exec:
+      commandLine: mvn clean install
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        isDefault: true
+        kind: build
+    id: maven-build
+  - exec:
+      commandLine: java -jar target/*.jar
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        isDefault: true
+        kind: run
+    id: run-with-hsqldb
+  - exec:
+      commandLine: 'java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005 target/*.jar'
+      workingDir: '${PROJECT_SOURCE}'
+      component: tools
+      group:
+        kind: run
+    id: run-debug</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The devfile can list IDE extensions requirement in-file or in another file named <code>.vscode/extensions.json</code> as the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
+    "recommendations": [
+      "redhat.java",
+      "vscjava.vscode-java-debug",
+      "vscjava.vscode-java-test",
+      "redhat.vscode-yaml"
+    ]
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+OpenShift Dev Spaces plugins are compatible with VSCode, see a list of available plugins from Red Hat <a href="https://marketplace.visualstudio.com/publishers/redhat">here</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After your workspace is up and running, locate the <code>/projects/catalog-spring-boot/src/main/resources/import.sql</code> file in the newly imported project:</p>
 </div>
 <div class="imageblock mt-4 center">
 <div class="content">
@@ -389,7 +493,7 @@ You might be asked to login through <a href="https://github.com" target="_blank"
 <div class="paragraph">
 <p>Add the following two lines of SQL into <code>import.sql</code>:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock copypaste">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('444439', 'Organic Cotton Quarkus twill cap', '100% organic cotton twill cap with an unstructured, low-profile, six-panel design. The crown measures 3 1/8 and this features a Permacurv visor and a buckle closure with a grommet.',13.00 );
 INSERT INTO PRODUCT (item_id, name, description, price) VALUES ('165623', 'Organic Cotton knit socks', 'Your brand will get noticed on these full color knit socks. Imported.',4.15);</code></pre>
@@ -690,12 +794,150 @@ services that are:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Locate the YAML files inside <a href="https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml" class="bare">https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml</a> and use the <code>Copy</code> feature of GitHub to copy their content.</p>
+<p>Copy the following YAML containing the Kubernetes manifests describing the API Gateway for the Coolstore. You find it also in the GitHub repository <a href="https://github.com/modernizing-java-applications-book/gateway-vertx/blob/main/kubernetes/gateway-vertx.yaml" target="_blank" rel="noopener">here</a>.</p>
 </li>
+</ul>
+</div>
+<div class="listingblock copypaste">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+kind: Deployment <i class="conum" data-value="1"></i><b>(1)</b>
+apiVersion: apps/v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/name: vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-vertx
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gateway-vertx
+    spec:
+      containers:
+        - name: gateway-vertx
+          image: quay.io/modernizingjavaappsbook/gateway-vertx:latest <i class="conum" data-value="2"></i><b>(2)</b>
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          env: <i class="conum" data-value="3"></i><b>(3)</b>
+            - name: COMPONENT_CATALOG_HOST
+              value: catalog-spring-boot
+            - name: COMPONENT_CATALOG_PORT
+              value: '8080'
+            - name: COMPONENT_INVENTORY_HOST
+              value: inventory-quarkus
+            - name: COMPONENT_INVENTORY_PORT
+              value: '8080'
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+kind: Service <i class="conum" data-value="4"></i><b>(4)</b>
+apiVersion: v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    - name: 8443-tcp
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+    - name: 8778-tcp
+      protocol: TCP
+      port: 8778
+      targetPort: 8778
+  selector:
+    app: gateway-vertx
+  type: ClusterIP
+  sessionAffinity: None
+---
+kind: Route <i class="conum" data-value="5"></i><b>(5)</b>
+apiVersion: route.openshift.io/v1
+metadata:
+  name: gateway-vertx
+  labels:
+    app: gateway-vertx
+    app.kubernetes.io/component: gateway-vertx
+    app.kubernetes.io/instance: gateway-vertx
+    app.kubernetes.io/part-of: coolstore
+spec:
+  to:
+    kind: Service
+    name: gateway-vertx
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A Kubernetes Deployment for this app.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The container image for the Gateway service available on Quay.io</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Environments variable to instruct the Gateway on what to connect, in this case the Inventory and the Catalog Kubernetes Services</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>A Kubernetes Service for the Gateway</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>A secure OpenShift Route for accessing the Gateway via an HTTPS URL
+<div class="ulist">
+<ul>
 <li>
 <p>Now paste using control-v or command-v the YAML content in your sandbox and hit <strong>Create</strong> button.</p>
 </li>
 </ul>
+</div></td>
+</tr>
+</table>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -723,20 +965,23 @@ services that are:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You can find the Route also by navigating to <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> or the OpenShift CLI inside the Web Terminal:</p>
+<p>You can find the Route also by navigating to <strong>OpenShift Web Console &#8594; Project &#8594; Routes</strong> :</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/gateway-service-url.png" alt="Gateway Service URL" width="700">
 </div>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>Or the OpenShift CLI inside the Web Terminal:</p>
+</div>
+<div class="listingblock copypaste">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route gateway-vertx</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This will open a new browser tab and you should see something similar to:</p>
+<p>By accessing the URL from the just created OpenShift Route, you should see something similar to the following:</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
