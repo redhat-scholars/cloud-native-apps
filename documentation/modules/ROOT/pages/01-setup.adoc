@@ -14,6 +14,21 @@ Once you've signed up and launched your OpenShift Sandbox, you'll now be at the 
 [.mt-4.center]
 image::sandbox-homepage.png[Sandbox Homepage,align="center"]
 
+.Quotas and Limits
+****
+Your private OpenShift environment on Developer Sandbox includes quotas and limits of:
+
+* 7 GB RAM
+* 15GB storage
+
+which is enough to run this workshop.
+
+There is one fixed project (namespace):
+
+* `<your_username>-dev`
+
+****
+
 [#wto]
 == Web Terminal Operator
 
