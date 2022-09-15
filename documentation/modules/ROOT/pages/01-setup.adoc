@@ -47,11 +47,3 @@ image::icon-bar-web-terminal.png[Web Terminal Highlighted]
 
 [.mt-4.center]
 image::web-terminal-operator.png[Sandbox Image Web Terminal]
-
-
-[#downloadtutorial]
-== Get tutorial sources
-
-:tutorial-url: https://github.com/redhat-scholars/cloud-native-apps.git
-:folder: my_folder
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]
