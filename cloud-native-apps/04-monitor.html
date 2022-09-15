@@ -240,51 +240,55 @@ start listening until initialization is complete.</p>
 <p><strong>What happens if you DON&#8217;T setup Liveness checks?</strong></p>
 </div>
 <div class="paragraph">
-<p>Imagine the <em>Inventory Service</em> is stuck in a state (Deadlock, NullPointer exception, Out of Memory, ..)
+<p>Imagine the <em>Node.js Web Service</em> is stuck in a state (Blocked event loop, Out of Memory, etc.)
 where it cannot perform as it should. Let&#8217;s access inside the container and simulate this state.</p>
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Resources' &#8594; '(P) inventory-quarkus-x-xxxxx'</strong></code></p>
+<code><strong>click on 'Topology' &#8594; '(D) web-nodejs-git' &#8594; 'Resources' &#8594; '(P) web-nodejs-git-x-xxxxx'</strong></code></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-pod.png" alt="OpenShift Inventory Pod" width="700">
+<img src="_images/openshift-nodejs-pod.png" alt="OpenShift Node.js Service Pod" width="700">
 </div>
 </div>
 <div class="paragraph">
 <p>Then, <code><strong>from the Terminal tab, run the following command</strong></code>:</p>
 </div>
-<div class="imageblock">
+<div class="listingblock console-input">
 <div class="content">
-<img src="_images/openshift-inventory-kill.png" alt="OpenShift Inventory kill" width="700">
-</div>
-</div>
-<div class="listingblock copypaste">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">kill 1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>So <strong>you just suspend the <em>Inventory Service</em> java process</strong> to simulate a stuck situation.</p>
-</div>
-<div class="paragraph">
-<p>In the OpenShift Web Console, <code><strong>click on the 'Events' and 'Logs' tabs</strong></code> and notice that
-<strong>everything seems to be ok</strong>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/openshift-inventory-events.png" alt="OpenShift Inventory Events" width="500">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl http://web-nodejs-git:8080/boom</code></pre>
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-logs.png" alt="OpenShift Inventory Logs" width="500">
+<img src="_images/openshift-nodejs-service-boom.png" alt="OpenShift Node.js Service Boom" width="700">
 </div>
 </div>
 <div class="paragraph">
-<p>Now, <code><strong>try to access your Inventory Service</strong></code>.
-<strong>You don&#8217;t have any response anymore</strong> (as the process has been stopped previously).</p>
+<p>You just triggered an issue in the <em>Node.js Web Service</em> process that simulates an event-loop delay.</p>
+</div>
+<div class="paragraph">
+<p>In the OpenShift Web Console, <code><strong>click on the 'Events' and 'Logs' tabs</strong></code> and notice that everything <strong>seems</strong> to be OK.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-nodejs-events.png" alt="OpenShift Node.js Service Events" width="500">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-nodejs-logs.png" alt="OpenShift Node.js Service Logs" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>Now, try to access your <em>Node.js Web Service</em> using the Route URL.
+The UI should load <strong>very slowly</strong>, as the process was forced into a broken state when you used <code>curl</code> on the <code>/boom</code> endpoint. You can see that the response times from the Node.js service are elevated using the DevTools in your browser, if you want.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/openshift-nodejs-app-network-logs.png" alt="OpenShift Node.js DevTools Log">
+</div>
 </div>
 <div class="paragraph">
 <p>Often, applications need a restart to work correctly again.</p>
@@ -294,18 +298,18 @@ where it cannot perform as it should. Let&#8217;s access inside the container an
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-delete-pod.png" alt="OpenShift Inventory Delete Pod" width="700">
+<img src="_images/openshift-nodejs-delete-pod.png" alt="OpenShift Node.js Service Delete Pod" width="700">
 </div>
 </div>
 <div class="paragraph">
 <p>A new instance (pod) will be redeployed.</p>
 </div>
 <div class="paragraph">
-<p><strong>Now the <em>Inventory Service</em> is working again.</strong></p>
+<p>The <em>Node.js Web Service</em> will be in a healthy state again.</p>
 </div>
 <div class="paragraph">
 <p>To make your application more robust and reliable, a <strong>Liveness check</strong>  will be used to check
-if the container itself has become unresponsive. If the liveness probe fails due to a condition such as a deadlock,
+if the container itself has become unresponsive. If the container cannot respond to the liveness probe due to a condition such as a deadlock,
 the container could automatically restart (based on its restart policy).</p>
 </div>
 </div>
@@ -314,48 +318,39 @@ the container could automatically restart (based on its restart policy).</p>
 <h2 id="configuring_liveness"><a class="anchor" href="#configuring_liveness"></a>Configuring Liveness Probes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://quarkus.io/guides/health-guide" target="_blank" rel="noopener">SmallRye Health</a> is a Quarkus extension which utilizes the MicroProfile Health specification.
-It allows applications to provide information about their state to external viewers which is typically useful
+<p><a href="https://github.com/nodeshift-archived/kube-probe" target="_blank" rel="noopener">Kube Probe</a> is a Node.js module that allows applications to provide information about their state to external viewers. This is typically useful
 in cloud environments where automated processes must be able to determine whether the application should be discarded or restarted.
-This extension is already present in the Inventory Microservice and you can check that by accessing the path <code>/q/health</code> under the URL of the Route associated
+This extension is already present in the Node.js microservice and you can check that by accessing the path <code>/api/health/liveness</code> under the URL of the Route associated
 to it:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/health-endpoint.png" alt="Health endpoint" width="700">
+<img src="_images/openshift-nodejs-health-endpoint.png" alt="Health endpoint" width="700">
 </div>
 </div>
 <div class="paragraph">
-<p>You should have the following output:</p>
+<p>It should return the following response:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
-    "status": "UP",
-    "checks": [
-        {
-            "name": "Database connection(s) health check",
-            "status": "UP"
-        }
-    ]
-}</code></pre>
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">OK</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>In the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>click on 'Topology' &#8594; '(D) inventory-quarkus' &#8594; 'Actions &#8594;'Edit Health Checks'</strong></code>.</p>
+<code><strong>click on 'Topology' &#8594; '(D) nodejs-web-git' &#8594; 'Actions &#8594;'Edit Health Checks'</strong></code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-edit-health-check.png" alt="Inventory Edit Health Check" width="500">
+<img src="_images/openshift-nodejs-edit-health-check.png" alt="Node.js Service Edit Health Check" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p>Then <code><strong>click on 'Liveness Probe Added'</strong></code></p>
+<p>Then <code><strong>click on 'Add Liveness Probe'</strong></code></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-liveness-added.png" alt="Change Liveness Probe" width="500">
+<img src="_images/openshift-nodejs-liveness-added.png" alt="Change Liveness Probe" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -363,7 +358,7 @@ to it:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-add-liveness-probe.png" alt="Inventory Edit Liveness Probe" width="500">
+<img src="_images/openshift-nodejs-add-liveness-probe.png" alt="Inventory Edit Liveness Probe" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -396,7 +391,7 @@ to it:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Path</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">/q/health/live</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/api/health/liveness</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Port</p></td>
@@ -463,18 +458,17 @@ Therefore, as soon as you define the probe, OpenShift automatically redeploys th
 <h2 id="testing_liveness"><a class="anchor" href="#testing_liveness"></a>Testing Liveness Probes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As you did previously, in the OpenShift Web Console, from the <strong>Developer view</strong>,
-<code><strong>access into the container and suspend the <em>Inventory Service</em> java process</strong></code>.</p>
+<p>As you did previously, in the OpenShift Web Console, from the <strong>Developer view</strong>, access the container and break the <em>Node.js Web Service</em> process using the <code>curl <a href="http://web-nodejs-git:8080/boom" class="bare">http://web-nodejs-git:8080/boom</a></code> command.</p>
 </div>
 <div class="paragraph">
 <p>Then, still in the OpenShift Web Console, <code><strong>click on the 'Events' tab</strong></code>.</p>
 </div>
 <div class="paragraph">
-<p>After 3 failed checks, OpenShift automatically restarts the container.</p>
+<p>After 3 failed checks, OpenShift automatically restarts the container. This is because the <code>/api/health/liveness</code> endpoint can no longer respond within the 1 second threshold configured in the liveness probe.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/openshift-inventory-events-failed-check.png" alt="OpenShift Inventory Event Failed Check" width="500">
+<img src="_images/openshift-nodejs-events-failed-check.png" alt="OpenShift Node.js Service Event Failed Check">
 </div>
 </div>
 </div>
