@@ -54,87 +54,80 @@ start listening until initialization is complete.
 
 **What happens if you DON'T setup Liveness checks?**
 
-Imagine the _Inventory Service_ is stuck in a state (Deadlock, NullPointer exception, Out of Memory, ..)
+Imagine the _Node.js Web Service_ is stuck in a state (Blocked event loop, Out of Memory, etc.)
 where it cannot perform as it should. Let's access inside the container and simulate this state.
 
 In the OpenShift Web Console, from the **Developer view**,
-`*click on 'Topology' -> '(D) inventory-quarkus' -> 'Resources' -> '(P) inventory-quarkus-x-xxxxx'*`
+`*click on 'Topology' -> '(D) web-nodejs-git' -> 'Resources' -> '(P) web-nodejs-git-x-xxxxx'*`
 
-image::openshift-inventory-pod.png[OpenShift Inventory Pod, 700]
+image::openshift-nodejs-pod.png[OpenShift Node.js Service Pod, 700]
 
 Then, `*from the Terminal tab, run the following command*`:
 
-image::openshift-inventory-kill.png[OpenShift Inventory kill, 700]
-
-[source,shell,subs="{markup-in-source}",role=copypaste]
+[.console-input]
+[source,bash,subs="{markup-in-source}"]
 ----
-kill 1
+curl http://web-nodejs-git:8080/boom
 ----
 
-So **you just suspend the _Inventory Service_ java process** to simulate a stuck situation.
+image::openshift-nodejs-service-boom.png[OpenShift Node.js Service Boom, 700]
 
-In the OpenShift Web Console, `*click on the 'Events' and 'Logs' tabs*` and notice that
-**everything seems to be ok**.
+You just triggered an issue in the _Node.js Web Service_ process that simulates an event-loop delay.
 
-image::openshift-inventory-events.png[OpenShift Inventory Events, 500]
+In the OpenShift Web Console, `*click on the 'Events' and 'Logs' tabs*` and notice that everything **seems** to be OK.
 
-image::openshift-inventory-logs.png[OpenShift Inventory Logs, 500]
+image::openshift-nodejs-events.png[OpenShift Node.js Service Events, 500]
 
-Now, `*try to access your Inventory Service*`.
-**You don't have any response anymore** (as the process has been stopped previously).
+image::openshift-nodejs-logs.png[OpenShift Node.js Service Logs, 500]
+
+Now, try to access your _Node.js Web Service_ using the Route URL.
+The UI should load **very slowly**, as the process was forced into a broken state when you used `curl` on the `/boom` endpoint. You can see that the response times from the Node.js service are elevated using the DevTools in your browser, if you want.
+
+image::openshift-nodejs-app-network-logs.png[OpenShift Node.js DevTools Log]
 
 Often, applications need a restart to work correctly again.
 
 In the OpenShift Web Console, `*click on 'Actions' -> 'Delete Pod' -> 'Delete'*`
 
-image::openshift-inventory-delete-pod.png[OpenShift Inventory Delete Pod, 700]
+image::openshift-nodejs-delete-pod.png[OpenShift Node.js Service Delete Pod, 700]
 
 A new instance (pod) will be redeployed. 
 
-**Now the _Inventory Service_ is working again.**
+The _Node.js Web Service_ will be in a healthy state again.
 
 To make your application more robust and reliable, a **Liveness check**  will be used to check
-if the container itself has become unresponsive. If the liveness probe fails due to a condition such as a deadlock,
+if the container itself has become unresponsive. If the container cannot respond to the liveness probe due to a condition such as a deadlock,
 the container could automatically restart (based on its restart policy).
 
 [#configuring_liveness]
 == Configuring Liveness Probes
 
-https://quarkus.io/guides/health-guide[SmallRye Health^] is a Quarkus extension which utilizes the MicroProfile Health specification.
-It allows applications to provide information about their state to external viewers which is typically useful
+https://github.com/nodeshift-archived/kube-probe[Kube Probe^] is a Node.js module that allows applications to provide information about their state to external viewers. This is typically useful
 in cloud environments where automated processes must be able to determine whether the application should be discarded or restarted.
-This extension is already present in the Inventory Microservice and you can check that by accessing the path `/q/health` under the URL of the Route associated 
+This extension is already present in the Node.js microservice and you can check that by accessing the path `/api/health/liveness` under the URL of the Route associated 
 to it:
 
-image::health-endpoint.png[Health endpoint, 700]
+image::openshift-nodejs-health-endpoint.png[Health endpoint, 700]
 
-You should have the following output:
+It should return the following response:
 
 [source,json,subs="{markup-in-source}"]
 ----
-{
-    "status": "UP",
-    "checks": [
-        {
-            "name": "Database connection(s) health check",
-            "status": "UP"
-        }
-    ]
-}
+OK
 ----
 
 In the OpenShift Web Console, from the **Developer view**,
-`*click on 'Topology' -> '(D) inventory-quarkus' -> 'Actions ->'Edit Health Checks'*`.
+`*click on 'Topology' -> '(D) nodejs-web-git' -> 'Actions ->'Edit Health Checks'*`.
 
-image::openshift-inventory-edit-health-check.png[Inventory Edit Health Check, 500]
+image::openshift-nodejs-edit-health-check.png[Node.js Service Edit Health Check, 500]
 
-Then `*click on 'Liveness Probe Added'*`
+Then `*click on 'Add Liveness Probe'*`
 
-image::openshift-inventory-liveness-added.png[Change Liveness Probe, 500]
+image::openshift-nodejs-liveness-added.png[Change Liveness Probe, 500]
 
 This will open the editing dialog as seen below:
 
-image::openshift-inventory-add-liveness-probe.png[Inventory Edit Liveness Probe, 500]
+image::openshift-nodejs-add-liveness-probe.png[Inventory Edit Liveness Probe, 500]
 
 `*Enter the following information:*`
 
@@ -154,7 +147,7 @@ image::openshift-inventory-add-liveness-probe.png[Inventory Edit Liveness Probe,
 |_Empty_
 
 |Path
-|/q/health/live
+|/api/health/liveness
 
 |Port
 |8080
@@ -199,14 +192,13 @@ Therefore, as soon as you define the probe, OpenShift automatically redeploys th
 [#testing_liveness]
 == Testing Liveness Probes
 
-As you did previously, in the OpenShift Web Console, from the **Developer view**,
-`*access into the container and suspend the _Inventory Service_ java process*`.
+As you did previously, in the OpenShift Web Console, from the **Developer view**, access the container and break the _Node.js Web Service_ process using the `curl http://web-nodejs-git:8080/boom` command.
 
 Then, still in the OpenShift Web Console, `*click on the 'Events' tab*`.
 
-After 3 failed checks, OpenShift automatically restarts the container.
+After 3 failed checks, OpenShift automatically restarts the container. This is because the `/api/health/liveness` endpoint can no longer respond within the 1 second threshold configured in the liveness probe.
 
-image::openshift-inventory-events-failed-check.png[OpenShift Inventory Event Failed Check, 500]
+image::openshift-nodejs-events-failed-check.png[OpenShift Node.js Service Event Failed Check]
 
 
 [#understanding_readiness]
