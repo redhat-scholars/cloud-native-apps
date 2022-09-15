@@ -309,13 +309,6 @@ NOTE: The JSON output  here has been beautified
 ]
 ----
 
-[TIP]
-====
-You can make the previous Helm installation of the Quarkus microservice part of your `coolstore` application by editing its labels and adding `app.kubernetes.io/part-of=coolstore`. You can also drag and drop it to the `coolstore` app by pressing CTRL command.
-
-image::edit-labels.png[Edit labels,600,600,align="center"]
-====
-
 Well done! You are ready to move on to the next section.
 
 [#yaml]
